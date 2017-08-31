@@ -32,19 +32,64 @@ public class BicyclePart {
     quantity = Integer.parseInt(strings[5]);
   }
 
+  public void updateValues(String newValues) {
+    strings = newValues.split(",");
+    listPrice = Double.parseDouble(strings[2]);
+    salePrice = Double.parseDouble(strings[3]);
+    onSale = Boolean.parseBoolean(strings[4]);
+    quantity += Integer.parseInt(strings[5]);
+  }
 
+  public boolean decrement() {
+    if (quantity >0) {
+      quantity--;
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
   /** Getters */
-  //get
+  public String getPartName() {
+    return partName;
+  }
+
+  public int getPartNumber() {
+    return partNumber;
+  }
+
+  public double getListPrice() {
+    return listPrice;
+  }
+
+  public double getSalePrice() {
+    return salePrice;
+  }
+
+  public boolean getSaleStatus() {
+    return onSale;
+  }
+
+  public int getQuantity() {
+    return quantity;
+  }
 
   /** Other methods */
-  public boolean matches(String inventoryString) {
-    String otherPartName = inventoryString.split(",")[0];
-    return  (this.partName.equals(otherPartName));
+  public String display() {
+    String displayString = partName + " costs ";
+    if (onSale) {
+      displayString += salePrice;
+      return displayString;
+    }
+    else {
+      displayString += listPrice;
+      return displayString;
+    }
   }
 
   @Override
-  public String toString() { //WORK
-    return super.toString();
+  public String toString() {
+    return partName + ',' + partNumber + ',' + listPrice + ',' +salePrice +',' + onSale + ',' + quantity;
   }
 }

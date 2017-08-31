@@ -1,14 +1,17 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Main {
 
   private static String databaseFileName = "WarehouseDB.txt";
   private static Scanner keyboard = new Scanner(System.in);
-  //static datatype
+  private static ArrayList<BicyclePart> partArrayList;
 
   public static void main(String[] args) {
-    //for every line in databaseFile, initialize a new BicyclePart and delete said line (or delete at end)
     readDB();
 
     boolean needInput = true;
@@ -60,7 +63,13 @@ public class Main {
   }
 
   private static void readDB() {
-
+    //for every line in databaseFile, initialize a new BicyclePart and delete said line (or delete at end)
+    try {
+      Stream<String> fileStream = Files.lines(Paths.get(databaseFileName));
+//      fileStream.forEach(partArrayList.add(new BicyclePart()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private static void save() {
