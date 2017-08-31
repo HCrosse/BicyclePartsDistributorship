@@ -1,13 +1,10 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class Main {
 
-  private static String databaseFileName = "WarehouseDB.txt";
+  private static String databaseFile = "WarehouseDB.txt";
   private static Scanner keyboard = new Scanner(System.in);
   private static ArrayList<BicyclePart> partArrayList;
 
@@ -64,12 +61,7 @@ public class Main {
 
   private static void readDB() {
     //for every line in databaseFile, initialize a new BicyclePart and delete said line (or delete at end)
-    try {
-      Stream<String> fileStream = Files.lines(Paths.get(databaseFileName));
-//      fileStream.forEach(partArrayList.add(new BicyclePart()));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    
   }
 
   private static void save() {
@@ -97,6 +89,10 @@ public class Main {
   }
 
   private static void sortNumber() {
+
+  }
+
+  private static void addBicyclePart(String line) {
 
   }
 
