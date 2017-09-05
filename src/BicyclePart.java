@@ -1,4 +1,6 @@
-public class BicyclePart {
+import java.util.Comparator;
+
+public class BicyclePart implements Comparable<BicyclePart>{
 
   private String[] strings;
   private String partName;
@@ -10,14 +12,14 @@ public class BicyclePart {
 
   public BicyclePart() {
     this.partName = "";
-    this.partNumber = 0;
-    this.listPrice = 0;
-    this.salePrice = 0;
+    this.partNumber = -1;
+    this.listPrice = -1;
+    this.salePrice = -1;
     this.onSale = false;
-    this.quantity = 0;
+    this.quantity = -1;
   }
 
-  public BicyclePart(String inventoryString) {
+  private BicyclePart(String inventoryString) {
     strings = inventoryString.split(",");
     setInitialValues();
   }
@@ -32,7 +34,7 @@ public class BicyclePart {
     quantity = Integer.parseInt(strings[5]);
   }
 
-  public void updateValues(String newValues) {
+  private void updateValues(String newValues) {
     strings = newValues.split(",");
     listPrice = Double.parseDouble(strings[2]);
     salePrice = Double.parseDouble(strings[3]);
@@ -40,22 +42,23 @@ public class BicyclePart {
     quantity += Integer.parseInt(strings[5]);
   }
 
-  public boolean decrement() {
+  public int decrement() {
     if (quantity >0) {
       quantity--;
-      return true;
+      if (quantity >0) {
+        return 1;
+      }
+      else return 0;
     }
     else {
-      return false;
+      return -1;
     }
   }
 
   /** Getters */
-  public String getPartName() {
-    return partName;
-  }
+  public String getPartName() { return partName; }
 
-  public int getPartNumber() {
+  private int getPartNumber() {
     return partNumber;
   }
 
@@ -76,7 +79,7 @@ public class BicyclePart {
   }
 
   /** Other methods */
-  public String display() {
+  private String display() {
     String displayString = partName + " costs ";
     if (onSale) {
       displayString += salePrice;
@@ -88,8 +91,22 @@ public class BicyclePart {
     }
   }
 
+  /** Returns 0 if name is equal, -1 if other is greater, 1 if other is lesser */
+  @Override
+  public int compareTo(BicyclePart otherPart) {
+    return this.partName.compareTo(otherPart.partName);
+  }
+
   @Override
   public String toString() {
     return partName + ',' + partNumber + ',' + listPrice + ',' +salePrice +',' + onSale + ',' + quantity;
+  }
+}
+
+class NumberComparator implements Comparator<BicyclePart> {
+
+  @Override
+  public int compare(BicyclePart o1, BicyclePart o2) {
+    return o1.getPartNumber() - o2.getPartNumber();
   }
 }
