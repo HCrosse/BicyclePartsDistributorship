@@ -1,39 +1,51 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+/**
+ * The Main class manages an inventory of BicycleParts to simulate a warehouse.
+ *
+ * @author Harrison Crosse
+ * @version 1.0
+ * @since 2017-09-05
+ */
+
 /** STATUS
- * Variables     : Unfinished
+ * Variables     : Done?
  * Main          : Done
  * PrintMenu     : Done
  * ReadDB        : Unfinished
  * Save          : Unfinished
  * ReadInventory : Unfinished
- * EnterPart     : Unfinished
+ * EnterPart     : Done
  * SellPart      : Unfinished
- * Display       : Unfinished
+ * Display       : Done
  * SortName      : Done
  * SortNumber    : Done
- * addBicyclePart: Unfinished
+ * getIndex      : Done
  */
 
 /** TODO
  * Define databaseFile so that it's usable for file IO
  * Read and write to databaseFile: readDB() and save()
  * Read inventoryFile and add content if not contained, or update if contained
- * Figure our .contains in Enter/Read/Display/Sell
+ * Fix .equals by overriding
  */
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
 
 public class Main {
 
-  private static String databaseFile = "WarehouseDB.txt";
+  private static File databaseFile = new File("WarehouseDB.txt");
+  private static File inventoryFile = new File("Inventory.txt");
   private static Scanner keyboard = new Scanner(System.in);
-  /** Consider switching to set/hashset if can find a way to sort
-   *  See if sorting can be done implicitly or through converting to arraylist, etc.
-   * */
   private static ArrayList<BicyclePart> partArrayList;
 
+  /**
+   * Reads the warehouseDB.txt file into an ArrayList,
+   * and calls printMenu() and executes the method that the user specifies.
+   *
+   * @param args CLI Arguments
+   */
   public static void main(String[] args) {
     readDB();
 
@@ -71,6 +83,11 @@ public class Main {
 
   }
 
+  /**
+   * Prints the user menu and returns the user input.
+   *
+   * @return user input as string
+   */
   private static String printMenu() {
     System.out.println("Please select your option from the following menu:");
     System.out.println("Read: Read an inventory delivery file");
@@ -84,19 +101,31 @@ public class Main {
     return keyboard.nextLine();
   }
 
+  /**
+   * Reads warehouseDB.txt line by line, creating a new BicyclePart from each line and adding to partArrayList.
+   */
   private static void readDB() {
     //for every line in databaseFile, initialize a new BicyclePart and delete said line (or delete at end)
 
   }
 
+  /**
+   * Writes a sorted partArrayList to warehouseDB.txt as a new line, overwriting all previous content.
+   */
   private static void save() {
 
   }
 
+  /**
+   * Reads inventory.txt and either adds new BicycleParts or updates existing BicycleParts in partArrayList.
+   */
   private static void readInventory() {
 
   }
 
+  /**
+   * Allows for manual addition or updating of a BicyclePart to partArrayList.
+   */
   private static void enterPart() {
     System.out.println("What is the part's name?");
     String newPart = keyboard.nextLine() + ",";
@@ -111,41 +140,64 @@ public class Main {
     System.out.println("What is the quantity of the part?");
     newPart += keyboard.nextLine();
     String partName = newPart.split(",")[0];
-    int index = partExists(partName);
+    int index = getIndex(partName);
     if (index >= 0) {
-      partArrayList.get(partArrayList.indexOf(index)).updateValues(newPart);
+      partArrayList.get(index).updateValues(newPart);
     }
     else {
       partArrayList.add(new BicyclePart(newPart));
     }
   }
 
+  /**
+   * If the part being sold exists, decrements its quantity by one and removes it if new quantity is zero.
+   */
   private static void sellPart() {
 
   }
 
+  /**
+   * Prints out the partName + active price if the part exists.
+   */
   private static void displayPart() {
     System.out.println("What is the part's name?");
     String partName = keyboard.nextLine();
-    int index = partExists(partName); //if exists return index, otherwise return -1
+    int index = getIndex(partName); //if exists return index, otherwise return -1
     if (index >= 0) {
-      partArrayList.get(partArrayList.indexOf(index)).display();
+      partArrayList.get(index).display();
     }
     else {
       System.out.println("Error: Part not found.");
     }
   }
 
+  /**
+   * Sorts partArrayList by partName.
+   */
   private static void sortName() {
     Collections.sort(partArrayList);
   }
 
+  /**
+   * Sorts partArrayList by partNumber
+   */
   private static void sortNumber() {
     Collections.sort(partArrayList, new NumberComparator());
   }
 
-  private static void addBicyclePart(String line) {
-
+  /**
+   * Gets the index of the part, if it exists.
+   *
+   * @param partName name of new part.
+   * @return -1 if part doesn't exist, otherwise the index of the part
+   */
+  private static int getIndex(String partName) {
+    for (int i = 0; i < partArrayList.size(); i++) {
+      if (partArrayList.get(i).equals(partName)) {
+        return i;
+      }
+    }
+    return -1;
   }
 
 }
