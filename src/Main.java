@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Scanner;
  * Save          : Unfinished
  * ReadInventory : Unfinished
  * EnterPart     : Done
- * SellPart      : Unfinished
+ * SellPart      : Done
  * Display       : Done
  * SortName      : Done
  * SortNumber    : Done
@@ -30,7 +31,7 @@ import java.util.Scanner;
  * Define databaseFile so that it's usable for file IO
  * Read and write to databaseFile: readDB() and save()
  * Read inventoryFile and add content if not contained, or update if contained
- * Fix .equals by overriding
+ * Test, specifically file IO and getIndex methods/.equals
  */
 
 public class Main {
@@ -140,7 +141,7 @@ public class Main {
     System.out.println("What is the quantity of the part?");
     newPart += keyboard.nextLine();
     String partName = newPart.split(",")[0];
-    int index = getIndex(partName);
+    int index = getIndexFromString(partName);
     if (index >= 0) {
       partArrayList.get(index).updateValues(newPart);
     }
@@ -153,7 +154,31 @@ public class Main {
    * If the part being sold exists, decrements its quantity by one and removes it if new quantity is zero.
    */
   private static void sellPart() {
-
+    BicyclePart soldPart;
+    System.out.println("What is the part's number?");
+    int partNumber = Integer.parseInt(keyboard.nextLine());
+    int index = getIndexFromNumber(partNumber);
+    if (index >= 0) {
+      soldPart = partArrayList.get(index);
+    }
+    else {
+      System.out.println("Error: Part not found.");
+      return;
+    }
+    if (soldPart.getSaleStatus()) {
+      System.out.println("Part is on sale.");
+    }
+    else {
+      System.out.println("Part is not on sale.");
+    }
+    System.out.println("Part sold " + new Date().toString());
+    int successful = soldPart.decrement();
+    if (successful > 0) {
+      partArrayList.set(index, soldPart);
+    }
+    else {
+      partArrayList.remove(index);
+    }
   }
 
   /**
@@ -162,7 +187,7 @@ public class Main {
   private static void displayPart() {
     System.out.println("What is the part's name?");
     String partName = keyboard.nextLine();
-    int index = getIndex(partName); //if exists return index, otherwise return -1
+    int index = getIndexFromString(partName); //if exists return index, otherwise return -1
     if (index >= 0) {
       partArrayList.get(index).display();
     }
@@ -191,9 +216,24 @@ public class Main {
    * @param partName name of new part.
    * @return -1 if part doesn't exist, otherwise the index of the part
    */
-  private static int getIndex(String partName) {
+  private static int getIndexFromString(String partName) {
     for (int i = 0; i < partArrayList.size(); i++) {
       if (partArrayList.get(i).equals(partName)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Gets the index of the part, if it exists.
+   *
+   * @param partNumber name of new part.
+   * @return -1 if part doesn't exist, otherwise the index of the part
+   */
+  private static int getIndexFromNumber(int partNumber) {
+    for (int i = 0; i < partArrayList.size(); i++) {
+      if (partArrayList.get(i).equals(partNumber)) {
         return i;
       }
     }
