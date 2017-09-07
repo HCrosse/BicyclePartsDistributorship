@@ -42,8 +42,8 @@ public class Main {
   private static ArrayList<BicyclePart> partArrayList;
 
   /**
-   * Reads the warehouseDB.txt file into an ArrayList,
-   * and calls printMenu() and executes the method that the user specifies.
+   * Reads the warehouseDB.txt file into an ArrayList, and calls printMenu() and executes the method
+   * that the user specifies.
    *
    * @param args CLI Arguments
    */
@@ -103,7 +103,8 @@ public class Main {
   }
 
   /**
-   * Reads warehouseDB.txt line by line, creating a new BicyclePart from each line and adding to partArrayList.
+   * Reads warehouseDB.txt line by line, creating a new BicyclePart from each line and adding to
+   * partArrayList.
    */
   private static void readDB() {
     //for every line in databaseFile, initialize a new BicyclePart and delete said line (or delete at end)
@@ -111,14 +112,16 @@ public class Main {
   }
 
   /**
-   * Writes a sorted partArrayList to warehouseDB.txt as a new line, overwriting all previous content.
+   * Writes a sorted partArrayList to warehouseDB.txt as a new line, overwriting all previous
+   * content.
    */
   private static void save() {
 
   }
 
   /**
-   * Reads inventory.txt and either adds new BicycleParts or updates existing BicycleParts in partArrayList.
+   * Reads inventory.txt and either adds new BicycleParts or updates existing BicycleParts in
+   * partArrayList.
    */
   private static void readInventory() {
 
@@ -140,43 +143,39 @@ public class Main {
     newPart += keyboard.nextLine() + ",";
     System.out.println("What is the quantity of the part?");
     newPart += keyboard.nextLine();
-    String partName = newPart.split(",")[0];
-    int index = getIndexFromString(partName);
+    int index = getIndex(newPart);
     if (index >= 0) {
       partArrayList.get(index).updateValues(newPart);
-    }
-    else {
+    } else {
       partArrayList.add(new BicyclePart(newPart));
     }
   }
 
   /**
-   * If the part being sold exists, decrements its quantity by one and removes it if new quantity is zero.
+   * If the part being sold exists, decrements its quantity by one and removes it if new quantity is
+   * zero.
    */
   private static void sellPart() {
     BicyclePart soldPart;
     System.out.println("What is the part's number?");
-    int partNumber = Integer.parseInt(keyboard.nextLine());
-    int index = getIndexFromNumber(partNumber);
+    String partNumber = "," + keyboard.nextLine();
+    int index = getIndex(partNumber);
     if (index >= 0) {
       soldPart = partArrayList.get(index);
-    }
-    else {
+    } else {
       System.out.println("Error: Part not found.");
       return;
     }
     if (soldPart.getSaleStatus()) {
       System.out.println("Part is on sale.");
-    }
-    else {
+    } else {
       System.out.println("Part is not on sale.");
     }
     System.out.println("Part sold " + new Date().toString());
     int successful = soldPart.decrement();
     if (successful > 0) {
       partArrayList.set(index, soldPart);
-    }
-    else {
+    } else {
       partArrayList.remove(index);
     }
   }
@@ -187,11 +186,10 @@ public class Main {
   private static void displayPart() {
     System.out.println("What is the part's name?");
     String partName = keyboard.nextLine();
-    int index = getIndexFromString(partName); //if exists return index, otherwise return -1
+    int index = getIndex(partName); //if exists return index, otherwise return -1
     if (index >= 0) {
       partArrayList.get(index).display();
-    }
-    else {
+    } else {
       System.out.println("Error: Part not found.");
     }
   }
@@ -213,31 +211,16 @@ public class Main {
   /**
    * Gets the index of the part, if it exists.
    *
-   * @param partName name of new part.
+   * @param partString String of new part.
    * @return -1 if part doesn't exist, otherwise the index of the part
    */
-  private static int getIndexFromString(String partName) {
+  private static int getIndex(String partString) {
+    BicyclePart otherPart = new BicyclePart(partString);
     for (int i = 0; i < partArrayList.size(); i++) {
-      if (partArrayList.get(i).equals(partName)) {
+      if (partArrayList.get(i).equals(otherPart)) {
         return i;
       }
     }
     return -1;
   }
-
-  /**
-   * Gets the index of the part, if it exists.
-   *
-   * @param partNumber name of new part.
-   * @return -1 if part doesn't exist, otherwise the index of the part
-   */
-  private static int getIndexFromNumber(int partNumber) {
-    for (int i = 0; i < partArrayList.size(); i++) {
-      if (partArrayList.get(i).equals(partNumber)) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
 }

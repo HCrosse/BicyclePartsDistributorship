@@ -34,15 +34,36 @@ public class BicyclePart implements Comparable<BicyclePart>{
    */
   BicyclePart(String inventoryString) {
     String[] strings = inventoryString.split(",");
-    partName = strings[0];
-    partNumber = Integer.parseInt(strings[1]);
-    listPrice = Double.parseDouble(strings[2]);
-    salePrice = Double.parseDouble(strings[3]);
-    onSale = Boolean.parseBoolean(strings[4]);
-    quantity = Integer.parseInt(strings[5]);
+    if (strings.length < 6) {
+      setComparisonValues(strings);
+    }
+    else {
+      partName = strings[0];
+      partNumber = Integer.parseInt(strings[1]);
+      listPrice = Double.parseDouble(strings[2]);
+      salePrice = Double.parseDouble(strings[3]);
+      onSale = Boolean.parseBoolean(strings[4]);
+      quantity = Integer.parseInt(strings[5]);
+    }
   }
 
   /* Setters */
+
+  /**
+   * Sets partName and partNumber from partial String for equals method.
+   *
+   * @param strings String.split array of String passed to constructor
+   */
+  private void setComparisonValues(String[] strings) {
+    if (strings.length == 1) {
+      this.partName = strings[0];
+      this.partNumber = -1;
+    }
+    else {
+      this.partName = strings[0];
+      this.partNumber = Integer.parseInt(strings[1]);
+    }
+  }
 
   /**
    * Updates listPrice, salePrice, onSale, and quantity.
@@ -120,21 +141,21 @@ public class BicyclePart implements Comparable<BicyclePart>{
   /**
    * Checks if this partName equals other partName.
    *
-   * @param otherName Name of other part
+   * @param o other part
    * @return true if equal, false if not
    */
-  public boolean eqauls(String otherName) {
-    return this.partName.equals(otherName);
-  }
-
-  /**
-   * Checks if this partNumber equals other PartNumber.
-   *
-   * @param otherNumber Number of other part
-   * @return true if equal, false if not
-   */
-  public boolean equals(int otherNumber) {
-    return (this.partNumber - otherNumber) == 0;
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    else if (this == o) {
+      return true;
+    }
+    else {
+      BicyclePart other = (BicyclePart)o;
+      return (this.partName.equals(other.partName) || this.partNumber == other.partNumber);
+    }
   }
 
   /**
