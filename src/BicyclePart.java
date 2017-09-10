@@ -170,7 +170,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
   }
 
   /**
-   * Checks if this partName equals other partName.
+   * Checks if this partName or partNumber equals other partName or partNumber.
    *
    * @param o other part
    * @return boolean true if equal, false if not
