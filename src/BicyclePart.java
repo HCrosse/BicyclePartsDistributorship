@@ -79,9 +79,9 @@ public class BicyclePart implements Comparable<BicyclePart>{
   }
 
   /**
-   * Decrements the quantity of the part by 1 if the quantity is >0.
+   * Decrements the quantity of the part by 1 if the quantity is greater than 0.
    *
-   * @return int -1 if failed, 1 if successful and new quantity >0, 0 if new quantity is 0.
+   * @return int -1 if failed, 1 if successful and new quantity greater than 0, 0 if new quantity is 0.
    */
   int decrement() {
     if (quantity >0) {
