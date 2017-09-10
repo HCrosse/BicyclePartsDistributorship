@@ -15,9 +15,6 @@ public class BicyclePart implements Comparable<BicyclePart>{
   private boolean onSale;
   private int quantity;
 
-  /**
-   * Default constructor.
-   */
   public BicyclePart() {
     this.partName = "";
     this.partNumber = -1;
@@ -81,7 +78,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
   /**
    * Decrements the quantity of the part by 1 if the quantity is >0.
    *
-   * @return -1 if failed, 1 if successful and new quantity >0, 0 if new quantity is 0.
+   * @return int -1 if failed, 1 if successful and new quantity >0, 0 if new quantity is 0.
    */
   int decrement() {
     if (quantity >0) {
@@ -97,24 +94,55 @@ public class BicyclePart implements Comparable<BicyclePart>{
   }
 
   /* Getters */
+
+  /**
+   * Returns the partName.
+   *
+   * @return String partName
+   */
   String getPartName() { return partName; }
 
+  /**
+   * Returns the partNumber.
+   *
+   * @return int partNumber
+   */
   int getPartNumber() {
     return partNumber;
   }
 
+  /**
+   * Returns the listPrice.
+   *
+   * @return double listPrice
+   */
   double getListPrice() {
     return listPrice;
   }
 
+  /**
+   * Returns the salePrice.
+   *
+   * @return double salePrice
+   */
   double getSalePrice() {
     return salePrice;
   }
 
+  /**
+   * Returns the sale status.
+   *
+   * @return boolean onSale
+   */
   boolean getSaleStatus() {
     return onSale;
   }
 
+  /**
+   * Returns the quantity.
+   *
+   * @return int quantity
+   */
   int getQuantity() {
     return quantity;
   }
@@ -124,7 +152,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
   /**
    * Returns partName + active price as string.
    *
-   * @return partName + price as string
+   * @return String partName + price
    */
   String display() {
     String displayString = partName + " costs ";
@@ -142,7 +170,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
    * Checks if this partName equals other partName.
    *
    * @param o other part
-   * @return true if equal, false if not
+   * @return boolean true if equal, false if not
    */
   @Override
   public boolean equals(Object o) {
@@ -162,7 +190,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
    * Overrides compareTo, used in .contains and .sort methods of List.
    *
    * @param otherPart Other BicyclePart
-   * @return 0 if equal, -1 if other greater, 1 if other lesser
+   * @return int  if equal, -1 if other greater, 1 if other lesser
    */
   @Override
   public int compareTo(BicyclePart otherPart) {
@@ -172,7 +200,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
   /**
    * Overrides toString, returns part info as string.
    *
-   * @return Part information as a String
+   * @return String of part information
    */
   @Override
   public String toString() {

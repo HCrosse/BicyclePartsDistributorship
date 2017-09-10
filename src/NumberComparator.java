@@ -15,7 +15,7 @@ public class NumberComparator implements Comparator<BicyclePart> {
    *
    * @param o1 The first BicyclePart
    * @param o2 The second BicyclePart
-   * @return An int of the difference between o1's and o2's partNumbers.
+   * @return int of the difference between o1's and o2's partNumbers.
    */
   @Override
   public int compare(BicyclePart o1, BicyclePart o2) {
