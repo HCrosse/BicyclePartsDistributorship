@@ -15,6 +15,9 @@ public class BicyclePart implements Comparable<BicyclePart>{
   private boolean onSale;
   private int quantity;
 
+  /**
+   * Default constructor, generates an empty String, -1 for numerical values, and false for booleans.
+   */
   public BicyclePart() {
     this.partName = "";
     this.partNumber = -1;
