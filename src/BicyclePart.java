@@ -190,7 +190,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
   }
 
   /**
-   * Overrides compareTo, used in .contains and .sort methods of List.
+   * Returns String .equals for this and other partName, used in .contains and .sort methods of List.
    *
    * @param otherPart Other BicyclePart
    * @return int  if equal, -1 if other greater, 1 if other lesser
@@ -201,7 +201,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
   }
 
   /**
-   * Overrides toString, returns part info as string.
+   * Returns part info as string.
    *
    * @return String of part information
    */
