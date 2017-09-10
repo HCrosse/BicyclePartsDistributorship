@@ -8,7 +8,7 @@ import java.util.Comparator;
  * @since 2017-09-05
  */
 
-class NumberComparator implements Comparator<BicyclePart> {
+public class NumberComparator implements Comparator<BicyclePart> {
 
   /**
    * Compares the partNumber of Object o1 with Object o2.
