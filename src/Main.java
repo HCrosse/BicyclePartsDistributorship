@@ -64,7 +64,7 @@ public class Main {
   /**
    * Prints the user menu and returns the user input.
    *
-   * @return user input as string
+   * @return String of user input
    */
   private static String printMenu() {
     System.out.println("Please select your option from the following menu:");
@@ -234,7 +234,7 @@ public class Main {
    * Gets the index of the part, if it exists.
    *
    * @param partString String of new part.
-   * @return -1 if part doesn't exist, otherwise the index of the part
+   * @return int -1 if part doesn't exist, otherwise the index of the part
    */
   private static int getIndex(String partString) {
     BicyclePart otherPart = new BicyclePart(partString);
