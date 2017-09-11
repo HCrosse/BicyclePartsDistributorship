@@ -150,6 +150,20 @@ public class BicyclePart implements Comparable<BicyclePart>{
     return quantity;
   }
 
+  /**
+   * Returns the active price.
+   *
+   * @return double active price
+   */
+  double getActivePrice() {
+    if (onSale) {
+      return salePrice;
+    }
+    else {
+      return listPrice;
+    }
+  }
+
   /* Other methods */
 
   /**
