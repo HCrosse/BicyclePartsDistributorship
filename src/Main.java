@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The Main class manages an inventory of BicycleParts to simulate a warehouse.
@@ -12,34 +9,14 @@ import java.util.Scanner;
  * @since 2017-09-05
  */
 
-/** STATUS
- * Variables     : Done?
- * Main          : Done
- * PrintMenu     : Done
- * ReadDB        : Unfinished
- * Save          : Unfinished
- * ReadInventory : Unfinished
- * EnterPart     : Done
- * SellPart      : Done
- * Display       : Done
- * SortName      : Done
- * SortNumber    : Done
- * getIndex      : Done
- */
-
 /** TODO
- * Define databaseFile so that it's usable for file IO
- * Read and write to databaseFile: readDB() and save()
- * Read inventoryFile and add content if not contained, or update if contained
  * Test, specifically file IO and getIndex methods/.equals
  */
 
 public class Main {
 
-  private static File databaseFile = new File("WarehouseDB.txt");
-  private static File inventoryFile = new File("Inventory.txt");
   private static Scanner keyboard = new Scanner(System.in);
-  private static ArrayList<BicyclePart> partArrayList;
+  private static ArrayList<BicyclePart> partArrayList = new ArrayList<>();
 
   /**
    * Reads the warehouseDB.txt file into an ArrayList, and calls printMenu() and executes the method
@@ -107,8 +84,21 @@ public class Main {
    * partArrayList.
    */
   private static void readDB() {
-    //for every line in databaseFile, initialize a new BicyclePart and delete said line (or delete at end)
-
+    File dbFile = new File("warehouseDB.txt");
+    Scanner readDB = null;
+    try {
+      readDB = new Scanner(dbFile);
+    } catch (FileNotFoundException e) {
+      System.out.println("Error: File not found.");
+      System.out.println("Program Terminating.");
+      e.printStackTrace();
+      System.exit(0);
+    }
+    while (readDB.hasNextLine()) {
+      String line = readDB.nextLine();
+      partArrayList.add(new BicyclePart(line));
+    }
+    readDB.close();
   }
 
   /**
@@ -116,7 +106,20 @@ public class Main {
    * content.
    */
   private static void save() {
-
+    sortName();
+    File dbFile = new File("warehouseDB.txt");
+    FileWriter fWriter;
+    try {
+      fWriter = new FileWriter(dbFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return;
+    }
+    PrintWriter pWriter = new PrintWriter(fWriter);
+    for (BicyclePart element : partArrayList) {
+      pWriter.println(element);
+    }
+    pWriter.close();
   }
 
   /**
@@ -124,7 +127,26 @@ public class Main {
    * partArrayList.
    */
   private static void readInventory() {
-
+    System.out.println("What is the inventory delivery file's name?");
+    File invFile = new File(keyboard.nextLine());
+    Scanner readInv;
+    try {
+      readInv = new Scanner(invFile);
+    } catch (FileNotFoundException e) {
+      System.out.println("Error: File not found.");
+      e.printStackTrace();
+      return;
+    }
+    while (readInv.hasNextLine()) {
+      String line = readInv.nextLine();
+      int index = getIndex(line);
+      if (index >= 0) {
+        partArrayList.get(index).updateValues(line);
+      } else {
+        partArrayList.add(new BicyclePart(line));
+      }
+    }
+    readInv.close();
   }
 
   /**
@@ -171,7 +193,7 @@ public class Main {
     } else {
       System.out.println("Part is not on sale.");
     }
-    System.out.println("Part sold " + new Date().toString());
+    System.out.println("Part sold " + new Date());
     int successful = soldPart.decrement();
     if (successful > 0) {
       partArrayList.set(index, soldPart);
@@ -186,7 +208,7 @@ public class Main {
   private static void displayPart() {
     System.out.println("What is the part's name?");
     String partName = keyboard.nextLine();
-    int index = getIndex(partName); //if exists return index, otherwise return -1
+    int index = getIndex(partName);
     if (index >= 0) {
       partArrayList.get(index).display();
     } else {
