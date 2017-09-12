@@ -33,7 +33,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
    * @param inventoryString String from database file
    */
   BicyclePart(String inventoryString) {
-    String[] strings = inventoryString.split(",");
+    String[] strings = inventoryString.replaceAll(" ", "").split(",");
     if (strings.length < 6) {
       setComparisonValues(strings);
     }
