@@ -221,6 +221,6 @@ public class BicyclePart implements Comparable<BicyclePart>{
    */
   @Override
   public String toString() {
-    return partName + ',' + partNumber + ',' + listPrice + ',' +salePrice +',' + onSale + ',' + quantity;
+    return partName + ',' + partNumber + ',' + listPrice + ',' + salePrice +',' + onSale + ',' + quantity;
   }
 }
