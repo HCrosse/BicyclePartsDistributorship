@@ -9,7 +9,7 @@ import java.util.*;
  * @since 2017-09-05
  */
 
-/** TODO
+/* TODO
  * Test ALL user input.
  * Test file IO.
  * Test getIndex methods/.equals.
@@ -212,7 +212,7 @@ public class Main {
     String partName = keyboard.nextLine();
     int index = getIndex(partName);
     if (index >= 0) {
-      partArrayList.get(index).display();
+      System.out.println(partArrayList.get(index).display());
     } else {
       System.out.println("Error: Part not found.");
     }

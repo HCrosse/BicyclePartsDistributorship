@@ -202,8 +202,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
    * @return String partName + price
    */
   String display() {
-    String displayString = partName + " costs $" + getActivePrice();
-    return displayString;
+    return (partName + " costs $" + getActivePrice());
   }
 
   /**
