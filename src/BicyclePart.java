@@ -41,7 +41,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
         onSale = Boolean.parseBoolean(strings[4]);
         quantity = Integer.parseInt(strings[5]);
       } catch (NumberFormatException e) {
-        System.out.println(e);
+        System.out.println(e.getMessage());
         setDefaultValues();
       }
     } else {
@@ -79,7 +79,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
       try {
         this.partNumber = Integer.parseInt(strings[1]);
       } catch (NumberFormatException e) {
-        System.out.println(e);
+        System.out.println(e.getMessage());
         this.partNumber = -1;
       }
     }
@@ -99,7 +99,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
         onSale = Boolean.parseBoolean(strings[4]);
         quantity += Integer.parseInt(strings[5]);
       } catch (NumberFormatException e) {
-        System.out.println(e);
+        System.out.println(e.getMessage());
         setDefaultValues();
       }
     } else {
@@ -202,15 +202,8 @@ public class BicyclePart implements Comparable<BicyclePart>{
    * @return String partName + price
    */
   String display() {
-    String displayString = partName + " costs ";
-    if (onSale) {
-      displayString += salePrice;
-      return displayString;
-    }
-    else {
-      displayString += listPrice;
-      return displayString;
-    }
+    String displayString = partName + " costs $" + getActivePrice();
+    return displayString;
   }
 
   /**
