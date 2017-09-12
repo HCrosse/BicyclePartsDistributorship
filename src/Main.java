@@ -10,7 +10,9 @@ import java.util.*;
  */
 
 /** TODO
- * Test, specifically file IO and getIndex methods/.equals
+ * Test ALL user input.
+ * Test file IO.
+ * Test getIndex methods/.equals.
  */
 
 public class Main {
