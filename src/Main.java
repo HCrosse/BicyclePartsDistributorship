@@ -13,6 +13,7 @@ import java.util.*;
  * Test ALL user input.
  * Test file IO.
  * Test getIndex methods/.equals.
+ * Standardize error handling in main and bikepart
  */
 
 public class Main {
