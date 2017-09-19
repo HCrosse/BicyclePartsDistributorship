@@ -32,21 +32,13 @@ public class BicyclePart implements Comparable<BicyclePart>{
     if (strings.length == 1 || strings.length == 2) {
       setComparisonValues(strings);
     }
-    else if (strings.length == 6){
-      try {
-        partName = strings[0];
-        partNumber = Integer.parseInt(strings[1]);
-        listPrice = Double.parseDouble(strings[2]);
-        salePrice = Double.parseDouble(strings[3]);
-        onSale = Boolean.parseBoolean(strings[4]);
-        quantity = Integer.parseInt(strings[5]);
-      } catch (NumberFormatException e) {
-        System.out.println(e.getMessage());
-        setDefaultValues();
-      }
-    } else {
-      System.out.println("Error: Invalid String entered.");
-      setDefaultValues();
+    else {
+      partName = strings[0];
+      partNumber = Integer.parseInt(strings[1]);
+      listPrice = Double.parseDouble(strings[2]);
+      salePrice = Double.parseDouble(strings[3]);
+      onSale = Boolean.parseBoolean(strings[4]);
+      quantity = Integer.parseInt(strings[5]);
     }
   }
 
@@ -56,12 +48,12 @@ public class BicyclePart implements Comparable<BicyclePart>{
    * Sets default values for fields.
    */
   private void setDefaultValues() {
-    this.partName = "";
-    this.partNumber = -1;
-    this.listPrice = -1;
-    this.salePrice = -1;
-    this.onSale = false;
-    this.quantity = -1;
+    partName = "";
+    partNumber = -1;
+    listPrice = -1;
+    salePrice = -1;
+    onSale = false;
+    quantity = -1;
   }
 
   /**
@@ -71,17 +63,12 @@ public class BicyclePart implements Comparable<BicyclePart>{
    */
   private void setComparisonValues(String[] strings) {
     if (strings.length == 1) {
-      this.partName = strings[0];
-      this.partNumber = -1;
+      partName = strings[0];
+      partNumber = -1;
     }
     else {
-      this.partName = strings[0];
-      try {
-        this.partNumber = Integer.parseInt(strings[1]);
-      } catch (NumberFormatException e) {
-        System.out.println(e.getMessage());
-        this.partNumber = -1;
-      }
+      partName = strings[0];
+      partNumber = Integer.parseInt(strings[1]);
     }
   }
 
@@ -92,20 +79,10 @@ public class BicyclePart implements Comparable<BicyclePart>{
    */
   void updateValues(String newValues) {
     String[] strings = newValues.split(",");
-    if (strings.length == 6) {
-      try {
-        listPrice = Double.parseDouble(strings[2]);
-        salePrice = Double.parseDouble(strings[3]);
-        onSale = Boolean.parseBoolean(strings[4]);
-        quantity += Integer.parseInt(strings[5]);
-      } catch (NumberFormatException e) {
-        System.out.println(e.getMessage());
-        setDefaultValues();
-      }
-    } else {
-      System.out.println("Error: Invalid String entered.");
-      setDefaultValues();
-    }
+    listPrice = Double.parseDouble(strings[2]);
+    salePrice = Double.parseDouble(strings[3]);
+    onSale = Boolean.parseBoolean(strings[4]);
+    quantity += Integer.parseInt(strings[5]);
   }
 
   /**

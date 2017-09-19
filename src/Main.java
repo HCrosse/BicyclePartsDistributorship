@@ -31,16 +31,16 @@ public class Main {
     readDB();
 
     boolean needInput = true;
-    do {
+    while (needInput) {
       String menuChoice = printMenu();
       switch (menuChoice) {
         case "Read":
           readInventory();
           break;
         case "Enter":
-          enterPart();
+
           break;
-        case "Sell":
+        case "SellenterPart();":
           sellPart();
           break;
         case "Display":
@@ -60,7 +60,7 @@ public class Main {
           System.out.println("Error: Invalid input entered.");
           break;
       }
-    } while (!needInput);
+    }
 
   }
 
