@@ -10,10 +10,12 @@ import java.util.*;
  */
 
 /* TODO
+ * Pare down BicyclePart
+ * Separate functions from Main/BicyclePart into either Inventory or WarehouseDatabase
  * Test ALL user input.
  * Test file IO.
  * Test getIndex methods/.equals.
- * Standardize error handling in main and bikepart
+ * Standardize error handling
  */
 
 public class Main {
@@ -217,6 +219,7 @@ public class Main {
     } else {
       System.out.println("Error: Part not found.");
     }
+
   }
 
   /**
@@ -224,6 +227,9 @@ public class Main {
    */
   private static void sortName() {
     Collections.sort(partArrayList);
+    for (BicyclePart bp : partArrayList) {
+      System.out.println(bp.toString());
+    }
   }
 
   /**
@@ -231,6 +237,9 @@ public class Main {
    */
   private static void sortNumber() {
     Collections.sort(partArrayList, new NumberComparator());
+    for (BicyclePart bp : partArrayList) {
+      System.out.println(bp.toString());
+    }
   }
 
   /**
