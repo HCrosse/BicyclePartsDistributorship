@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * The Main class manages an inventory of BicycleParts to simulate a warehouse.
+ * The Main class manages an inventory of InventoryParts to simulate a warehouse.
  *
  * @author Harrison Crosse
  * @version 1.0
@@ -10,18 +10,15 @@ import java.util.*;
  */
 
 /* TODO
- * Pare down BicyclePart
- * Separate functions from Main/BicyclePart into either Inventory or WarehouseDatabase
- * Test ALL user input.
+ * Update Docs
  * Test file IO.
  * Test getIndex methods/.equals.
- * Standardize error handling
  */
 
 public class Main {
 
   private static Scanner keyboard = new Scanner(System.in);
-  private static ArrayList<BicyclePart> partArrayList = new ArrayList<>();
+  private static Warehouse wh;
 
   /**
    * Reads the warehouseDB.txt file into an ArrayList, and calls printMenu() and executes the method
@@ -30,7 +27,13 @@ public class Main {
    * @param args CLI Arguments
    */
   public static void main(String[] args) {
-    readDB();
+    try {
+      wh = new Warehouse("warehouseDB.txt");
+    } catch (FileNotFoundException e) {
+      System.out.println("Error: Database File Not Found.");
+      e.printStackTrace();
+      System.exit(1);
+    }
 
     boolean needInput = true;
     while (needInput) {
@@ -40,9 +43,9 @@ public class Main {
           readInventory();
           break;
         case "Enter":
-
+          enterPart();
           break;
-        case "SellenterPart();":
+        case "Sell":
           sellPart();
           break;
         case "Display":
@@ -85,50 +88,21 @@ public class Main {
   }
 
   /**
-   * Reads warehouseDB.txt line by line, creating a new BicyclePart from each line and adding to
-   * partArrayList.
-   */
-  private static void readDB() {
-    File dbFile = new File("warehouseDB.txt");
-    Scanner readDB = null;
-    try {
-      readDB = new Scanner(dbFile);
-    } catch (FileNotFoundException e) {
-      System.out.println("Error: File not found.");
-      System.out.println("Program Terminating.");
-      e.printStackTrace();
-      System.exit(0);
-    }
-    while (readDB.hasNextLine()) {
-      String line = readDB.nextLine();
-      partArrayList.add(new BicyclePart(line));
-    }
-    readDB.close();
-  }
-
-  /**
    * Writes a sorted partArrayList to warehouseDB.txt as a new line, overwriting all previous
    * content.
    */
   private static void save() {
-    sortName();
-    File dbFile = new File("warehouseDB.txt");
-    FileWriter fWriter;
-    try {
-      fWriter = new FileWriter(dbFile);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return;
-    }
-    PrintWriter pWriter = new PrintWriter(fWriter);
-    for (BicyclePart element : partArrayList) {
-      pWriter.println(element);
-    }
-    pWriter.close();
+   try {
+     wh.save();
+   } catch (IOException e) {
+     System.out.println("Error: Unable to save file.");
+     e.printStackTrace();
+     System.exit(1);
+   }
   }
 
   /**
-   * Reads inventory.txt and either adds new BicycleParts or updates existing BicycleParts in
+   * Reads inventory.txt and either adds new InventoryParts or updates existing InventoryParts in
    * partArrayList.
    */
   private static void readInventory() {
@@ -143,19 +117,19 @@ public class Main {
       return;
     }
     while (readInv.hasNextLine()) {
-      String line = readInv.nextLine();
-      int index = getIndex(line);
+      String[] strings = readInv.nextLine().split(",");
+      int index = wh.getIndex(strings[0]);
       if (index >= 0) {
-        partArrayList.get(index).updateValues(line);
+        wh.getPart(index).updateValues(strings);
       } else {
-        partArrayList.add(new BicyclePart(line));
+        wh.addPart(new InventoryPart(strings));
       }
     }
     readInv.close();
   }
 
   /**
-   * Allows for manual addition or updating of a BicyclePart to partArrayList.
+   * Allows for manual addition or updating of a InventoryPart to partArrayList.
    */
   private static void enterPart() {
     System.out.println("What is the part's name?");
@@ -170,11 +144,12 @@ public class Main {
     newPart += keyboard.nextLine() + ",";
     System.out.println("What is the quantity of the part?");
     newPart += keyboard.nextLine();
-    int index = getIndex(newPart);
+    String[] strings = newPart.split(",");
+    int index = wh.getIndex(strings[0]);
     if (index >= 0) {
-      partArrayList.get(index).updateValues(newPart);
+      wh.getPart(index).updateValues(strings);
     } else {
-      partArrayList.add(new BicyclePart(newPart));
+      wh.addPart(new InventoryPart(strings));
     }
   }
 
@@ -183,12 +158,12 @@ public class Main {
    * zero.
    */
   private static void sellPart() {
-    BicyclePart soldPart;
+    InventoryPart soldPart;
     System.out.println("What is the part's number?");
-    String partNumber = "," + keyboard.nextLine();
-    int index = getIndex(partNumber);
+    int partNumber = Integer.parseInt(keyboard.nextLine());
+    int index = wh.getIndex(partNumber);
     if (index >= 0) {
-      soldPart = partArrayList.get(index);
+      soldPart = wh.getPart(index);
     } else {
       System.out.println("Error: Part not found.");
       return;
@@ -198,12 +173,10 @@ public class Main {
     } else {
       System.out.println("Part is not on sale.");
     }
-    System.out.println("Part sold " + new Date());
+    System.out.println("Part sold " + new Date().toString());
     int successful = soldPart.decrement();
-    if (successful > 0) {
-      partArrayList.set(index, soldPart);
-    } else {
-      partArrayList.remove(index);
+    if (successful < 1) {
+      wh.removePart(index);
     }
   }
 
@@ -213,9 +186,9 @@ public class Main {
   private static void displayPart() {
     System.out.println("What is the part's name?");
     String partName = keyboard.nextLine();
-    int index = getIndex(partName);
+    int index = wh.getIndex(partName);
     if (index >= 0) {
-      System.out.println(partArrayList.get(index).display());
+      System.out.println(wh.getPart(index).display());
     } else {
       System.out.println("Error: Part not found.");
     }
@@ -226,35 +199,16 @@ public class Main {
    * Sorts partArrayList by partName.
    */
   private static void sortName() {
-    Collections.sort(partArrayList);
-    for (BicyclePart bp : partArrayList) {
-      System.out.println(bp.toString());
-    }
+    wh.sortName();
+    System.out.print(wh.toString());
   }
 
   /**
    * Sorts partArrayList by partNumber
    */
   private static void sortNumber() {
-    Collections.sort(partArrayList, new NumberComparator());
-    for (BicyclePart bp : partArrayList) {
-      System.out.println(bp.toString());
-    }
+    wh.sortNumber();
+    System.out.print(wh.toString());
   }
 
-  /**
-   * Gets the index of the part, if it exists.
-   *
-   * @param partString String of new part.
-   * @return int -1 if part doesn't exist, otherwise the index of the part
-   */
-  private static int getIndex(String partString) {
-    BicyclePart otherPart = new BicyclePart(partString);
-    for (int i = 0; i < partArrayList.size(); i++) {
-      if (partArrayList.get(i).equals(otherPart)) {
-        return i;
-      }
-    }
-    return -1;
-  }
 }

@@ -8,7 +8,7 @@ import java.util.Comparator;
  * @since 2017-09-05
  */
 
-public class NumberComparator implements Comparator<BicyclePart> {
+public class NumberComparator implements Comparator<Part> {
 
   /**
    * Compares the partNumber of Object o1 with Object o2.
@@ -18,7 +18,7 @@ public class NumberComparator implements Comparator<BicyclePart> {
    * @return int of the difference between o1's and o2's partNumbers.
    */
   @Override
-  public int compare(BicyclePart o1, BicyclePart o2) {
+  public int compare(Part o1, Part o2) {
     return o1.getPartNumber() - o2.getPartNumber();
   }
 }

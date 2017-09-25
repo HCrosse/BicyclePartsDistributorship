@@ -1,125 +1,45 @@
-/**
- * The BicyclePart class stores and manipulates information about a BicyclePart.
- *
- * @author Harrison Crosse
- * @version 1.0
- * @since 2017-09-05
- */
+public class BicyclePart extends Part{
 
-public class BicyclePart implements Comparable<BicyclePart>{
-
-  private String partName;
-  private int partNumber;
   private double listPrice;
   private double salePrice;
   private boolean onSale;
-  private int quantity;
 
   /**
    * Default constructor, generates an empty String, -1 for numerical values, and false for booleans.
    */
   BicyclePart() {
-    setDefaultValues();
+    super();
+    listPrice = -1;
+    salePrice = -1;
+    onSale = false;
   }
 
   /**
    * Splits a string into disparate values, stores those values into global variables.
    *
-   * @param inventoryString String from database file
+   * @param strings String array from database file
    */
-  BicyclePart(String inventoryString) {
-    String[] strings = inventoryString.replaceAll(" ", "").split(",");
-    if (strings.length == 1 || strings.length == 2) {
-      setComparisonValues(strings);
-    }
-    else {
-      partName = strings[0];
-      partNumber = Integer.parseInt(strings[1]);
-      listPrice = Double.parseDouble(strings[2]);
-      salePrice = Double.parseDouble(strings[3]);
-      onSale = Boolean.parseBoolean(strings[4]);
-      quantity = Integer.parseInt(strings[5]);
-    }
+  BicyclePart(String[] strings) {
+    super(strings);
+    listPrice = Double.parseDouble(strings[2]);
+    salePrice = Double.parseDouble(strings[3]);
+    onSale = Boolean.parseBoolean(strings[4]);
   }
 
   /* Setters */
 
   /**
-   * Sets default values for fields.
-   */
-  private void setDefaultValues() {
-    partName = "";
-    partNumber = -1;
-    listPrice = -1;
-    salePrice = -1;
-    onSale = false;
-    quantity = -1;
-  }
-
-  /**
-   * Sets partName and partNumber from partial String for equals method.
-   *
-   * @param strings String.split array of String passed to constructor
-   */
-  private void setComparisonValues(String[] strings) {
-    if (strings.length == 1) {
-      partName = strings[0];
-      partNumber = -1;
-    }
-    else {
-      partName = strings[0];
-      partNumber = Integer.parseInt(strings[1]);
-    }
-  }
-
-  /**
    * Updates listPrice, salePrice, onSale, and quantity.
    *
-   * @param newValues String from inventory file
+   * @param strings String array from inventory file
    */
-  void updateValues(String newValues) {
-    String[] strings = newValues.split(",");
+  void updateValues(String[] strings) {
     listPrice = Double.parseDouble(strings[2]);
     salePrice = Double.parseDouble(strings[3]);
     onSale = Boolean.parseBoolean(strings[4]);
-    quantity += Integer.parseInt(strings[5]);
-  }
-
-  /**
-   * Decrements the quantity of the part by 1 if the quantity is greater than 0.
-   *
-   * @return int -1 if failed, 1 if successful and new quantity greater than 0, 0 if new quantity is 0.
-   */
-  int decrement() {
-    if (quantity >0) {
-      quantity--;
-      if (quantity >0) {
-        return 1;
-      }
-      else return 0;
-    }
-    else {
-      return -1;
-    }
   }
 
   /* Getters */
-
-  /**
-   * Returns the partName.
-   *
-   * @return String partName
-   */
-  String getPartName() { return partName; }
-
-  /**
-   * Returns the partNumber.
-   *
-   * @return int partNumber
-   */
-  int getPartNumber() {
-    return partNumber;
-  }
 
   /**
    * Returns the listPrice.
@@ -149,15 +69,6 @@ public class BicyclePart implements Comparable<BicyclePart>{
   }
 
   /**
-   * Returns the quantity.
-   *
-   * @return int quantity
-   */
-  int getQuantity() {
-    return quantity;
-  }
-
-  /**
    * Returns the active price.
    *
    * @return double active price
@@ -179,38 +90,7 @@ public class BicyclePart implements Comparable<BicyclePart>{
    * @return String partName + price
    */
   String display() {
-    return (partName + " costs $" + getActivePrice());
-  }
-
-  /**
-   * Checks if this partName or partNumber equals other partName or partNumber.
-   *
-   * @param o other part
-   * @return boolean true if equal, false if not
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    else if (this == o) {
-      return true;
-    }
-    else {
-      BicyclePart other = (BicyclePart)o;
-      return (this.partName.equals(other.partName) || this.partNumber == other.partNumber);
-    }
-  }
-
-  /**
-   * Returns String .equals for this and other partName, used in .contains and .sort methods of List.
-   *
-   * @param otherPart Other BicyclePart
-   * @return int  if equal, -1 if other greater, 1 if other lesser
-   */
-  @Override
-  public int compareTo(BicyclePart otherPart) {
-    return this.partName.compareTo(otherPart.partName);
+    return (super.getPartName() + " costs $" + getActivePrice());
   }
 
   /**
@@ -220,6 +100,6 @@ public class BicyclePart implements Comparable<BicyclePart>{
    */
   @Override
   public String toString() {
-    return partName + ',' + partNumber + ',' + listPrice + ',' + salePrice +',' + onSale + ',' + quantity;
+    return (super.toString() + "," + listPrice + "," + salePrice + "," + onSale);
   }
 }
