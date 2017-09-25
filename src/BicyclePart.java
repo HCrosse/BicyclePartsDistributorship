@@ -1,3 +1,10 @@
+/**
+ * The BicyclePart class stores information about BicycleParts.
+ *
+ * @author Harrison Crosse
+ * @version 1.5
+ */
+
 public class BicyclePart extends Part{
 
   private double listPrice;
@@ -5,7 +12,7 @@ public class BicyclePart extends Part{
   private boolean onSale;
 
   /**
-   * Default constructor, generates an empty String, -1 for numerical values, and false for booleans.
+   * Default constructor, sets -1 for numerical values, and false for booleans.
    */
   BicyclePart() {
     super();
@@ -15,9 +22,9 @@ public class BicyclePart extends Part{
   }
 
   /**
-   * Splits a string into disparate values, stores those values into global variables.
+   * Super(strings), sets listPrice, salePrice, onSale values from strings.
    *
-   * @param strings String array from database file
+   * @param strings String[] of part information.
    */
   BicyclePart(String[] strings) {
     super(strings);
@@ -26,12 +33,10 @@ public class BicyclePart extends Part{
     onSale = Boolean.parseBoolean(strings[4]);
   }
 
-  /* Setters */
-
   /**
-   * Updates listPrice, salePrice, onSale, and quantity.
+   * Updates listPrice, salePrice, and onSale.
    *
-   * @param strings String array from inventory file
+   * @param strings String[] from inventory file.
    */
   void updateValues(String[] strings) {
     listPrice = Double.parseDouble(strings[2]);
@@ -39,39 +44,38 @@ public class BicyclePart extends Part{
     onSale = Boolean.parseBoolean(strings[4]);
   }
 
-  /* Getters */
 
   /**
    * Returns the listPrice.
    *
-   * @return double listPrice
+   * @return double listPrice.
    */
   double getListPrice() {
     return listPrice;
   }
 
   /**
-   * Returns the salePrice.
+   * Gets the salePrice.
    *
-   * @return double salePrice
+   * @return double salePrice.
    */
   double getSalePrice() {
     return salePrice;
   }
 
   /**
-   * Returns the sale status.
+   * Gets the sale status.
    *
-   * @return boolean onSale
+   * @return boolean onSale.
    */
   boolean getSaleStatus() {
     return onSale;
   }
 
   /**
-   * Returns the active price.
+   * Gets the active price.
    *
-   * @return double active price
+   * @return double active price.
    */
   double getActivePrice() {
     if (onSale) {
@@ -82,12 +86,10 @@ public class BicyclePart extends Part{
     }
   }
 
-  /* Other methods */
-
   /**
    * Returns partName + active price as string.
    *
-   * @return String partName + price
+   * @return String partName + price.
    */
   String display() {
     return (super.getPartName() + " costs $" + getActivePrice());
@@ -96,7 +98,7 @@ public class BicyclePart extends Part{
   /**
    * Returns part info as string.
    *
-   * @return String of part information
+   * @return String of part information.
    */
   @Override
   public String toString() {

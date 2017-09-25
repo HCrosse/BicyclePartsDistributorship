@@ -2,17 +2,10 @@ import java.io.*;
 import java.util.*;
 
 /**
- * The Main class manages an inventory of InventoryParts to simulate a warehouse.
+ * The Main class provides a user interface for the Warehouse simulation.
  *
  * @author Harrison Crosse
- * @version 1.0
- * @since 2017-09-05
- */
-
-/* TODO
- * Update Docs
- * Test file IO.
- * Test getIndex methods/.equals.
+ * @version 1.5
  */
 
 public class Main {
@@ -21,18 +14,19 @@ public class Main {
   private static Warehouse wh;
 
   /**
-   * Reads the warehouseDB.txt file into an ArrayList, and calls printMenu() and executes the method
-   * that the user specifies.
+   * Reads warehouseDB.txt into the Warehouse wh, manages console UI.
    *
-   * @param args CLI Arguments
+   * @param args CLI Arguments.
    */
   public static void main(String[] args) {
     try {
-      wh = new Warehouse("warehouseDB.txt");
+      wh = new Warehouse("resources/warehouseDB.txt");
     } catch (FileNotFoundException e) {
       System.out.println("Error: Database File Not Found.");
       e.printStackTrace();
       System.exit(1);
+    } catch (IndexOutOfBoundsException e) {
+      //thrown by empty warehouseDB
     }
 
     boolean needInput = true;
@@ -72,24 +66,23 @@ public class Main {
   /**
    * Prints the user menu and returns the user input.
    *
-   * @return String of user input
+   * @return String of user input.
    */
   private static String printMenu() {
-    System.out.println("Please select your option from the following menu:");
+    System.out.println("\nPlease select your option from the following menu:");
     System.out.println("Read: Read an inventory delivery file");
     System.out.println("Enter: Enter a part");
     System.out.println("Sell: Sell a part");
     System.out.println("Display: Display a part");
     System.out.println("SortName: Sort parts by part name");
     System.out.println("SortNumber: Sort parts by part number");
-    System.out.println("Quit:");
+    System.out.println("Quit");
     System.out.println("Enter your choice:");
     return keyboard.nextLine();
   }
 
   /**
-   * Writes a sorted partArrayList to warehouseDB.txt as a new line, overwriting all previous
-   * content.
+   * Saves wh to warehouse.txt.
    */
   private static void save() {
    try {
@@ -103,17 +96,16 @@ public class Main {
 
   /**
    * Reads inventory.txt and either adds new InventoryParts or updates existing InventoryParts in
-   * partArrayList.
+   * wh.
    */
   private static void readInventory() {
     System.out.println("What is the inventory delivery file's name?");
-    File invFile = new File(keyboard.nextLine());
+    File invFile = new File("resources/" + keyboard.nextLine());
     Scanner readInv;
     try {
       readInv = new Scanner(invFile);
     } catch (FileNotFoundException e) {
       System.out.println("Error: File not found.");
-      e.printStackTrace();
       return;
     }
     while (readInv.hasNextLine()) {
@@ -129,7 +121,7 @@ public class Main {
   }
 
   /**
-   * Allows for manual addition or updating of a InventoryPart to partArrayList.
+   * Allows for manual addition or updating of a InventoryPart to wh.
    */
   private static void enterPart() {
     System.out.println("What is the part's name?");
@@ -154,8 +146,8 @@ public class Main {
   }
 
   /**
-   * If the part being sold exists, decrements its quantity by one and removes it if new quantity is
-   * zero.
+   * If the part being sold exists, decrements its quantity by one and removes it from wh if the
+   * new quantity is zero.
    */
   private static void sellPart() {
     InventoryPart soldPart;
@@ -196,7 +188,7 @@ public class Main {
   }
 
   /**
-   * Sorts partArrayList by partName.
+   * Sorts wh by partName.
    */
   private static void sortName() {
     wh.sortName();
@@ -204,7 +196,7 @@ public class Main {
   }
 
   /**
-   * Sorts partArrayList by partNumber
+   * Sorts wh by partNumber
    */
   private static void sortNumber() {
     wh.sortNumber();

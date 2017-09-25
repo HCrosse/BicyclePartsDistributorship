@@ -1,17 +1,37 @@
+/**
+ * The BicyclePart class stores information about InventoryParts.
+ *
+ * @author Harrison Crosse
+ * @version 1.0
+ */
+
 public class InventoryPart extends BicyclePart {
 
   private int quantity;
 
+  /**
+   * Default constructor, sets quantity to -1.
+   */
   InventoryPart() {
     super();
     quantity = -1;
   }
 
+  /**
+   * Super(strings), sets quantity based upon strings.
+   *
+   * @param strings String[] of part information.
+   */
   InventoryPart(String[] strings) {
     super(strings);
     quantity = Integer.parseInt(strings[5]);
   }
 
+  /**
+   * Super(strings), updates quantity.
+   *
+   * @param strings String[]from inventory file.
+   */
   @Override
   void updateValues(String[] strings) {
     super.updateValues(strings);
@@ -36,10 +56,20 @@ public class InventoryPart extends BicyclePart {
     }
   }
 
+  /**
+   * Gets quantity.
+   *
+   * @return int quantity.
+   */
   int getQuantity() {
     return quantity;
   }
 
+  /**
+   * Returns part info as string.
+   *
+   * @return String of part information.
+   */
   @Override
   public String toString() {
     return (super.toString() + "," + quantity);
