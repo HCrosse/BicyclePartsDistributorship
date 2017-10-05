@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /**
  * The Part class stores information about Parts.
  *
@@ -86,4 +88,6 @@ public class Part implements Comparable<Part> {
   public String toString() {
     return (partName + "," + partNumber);
   }
+
+  public static final Comparator<Part> SORT_BY_NUM = (first, second) -> first.getPartNumber() - second.getPartNumber();
 }
