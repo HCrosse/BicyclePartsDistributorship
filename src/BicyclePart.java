@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /**
  * The BicyclePart class stores information about BicycleParts.
  *
@@ -78,12 +80,7 @@ public class BicyclePart extends Part{
    * @return double active price.
    */
   double getActivePrice() {
-    if (onSale) {
-      return salePrice;
-    }
-    else {
-      return listPrice;
-    }
+    return onSale ? salePrice : listPrice;
   }
 
   /**
