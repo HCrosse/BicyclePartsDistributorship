@@ -1,5 +1,3 @@
-import java.util.Comparator;
-
 /**
  * The BicyclePart class stores information about BicycleParts.
  *
