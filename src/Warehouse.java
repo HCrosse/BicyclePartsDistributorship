@@ -82,7 +82,7 @@ public class Warehouse {
    * Sorts partArrayList by number.
    */
   void sortNumber() {
-    Collections.sort(partArrayList, new NumberComparator());
+    Collections.sort(partArrayList, Part.SORT_BY_NUM);
   }
 
   /**
