@@ -78,12 +78,7 @@ public class BicyclePart extends Part{
    * @return double active price.
    */
   double getActivePrice() {
-    if (onSale) {
-      return salePrice;
-    }
-    else {
-      return listPrice;
-    }
+    return onSale ? salePrice : listPrice;
   }
 
   /**
