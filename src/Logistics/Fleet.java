@@ -6,42 +6,44 @@ import java.util.*;
 public class Fleet {
 
   private static Warehouse mwh;
-  private static ArrayList<Warehouse> vans = new ArrayList<Warehouse>();
+  private static ArrayList<Warehouse> vans = new ArrayList<>();
 
+  /**
+   * Initializes the fleet.
+   *
+   * @throws FileNotFoundException if a file used in Warehouse creation cannot be found.
+   * @throws IndexOutOfBoundsException for unknown reason.
+   */
   public Fleet() throws FileNotFoundException, IndexOutOfBoundsException {
     initFleet();
   }
 
+  /**
+   * Initializes mwh either from an existing file or from scratch, and vans from existing files.
+   *
+   * @throws FileNotFoundException if a file used in Warehouse creation cannot be found.
+   * @throws IndexOutOfBoundsException for unknown reason.
+   */
   private void initFleet() throws FileNotFoundException, IndexOutOfBoundsException {
     File mainFile = new File("resources/warehouse/Main.txt");
     if (mainFile.exists()) {
-      try {
-        mwh = new Warehouse(mainFile);
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
-        System.exit(1);
-      } catch (IndexOutOfBoundsException e) {
-        //unknown cause
-      }
+      mwh = new Warehouse(mainFile);
     } else {
       mwh = new Warehouse("Main");
     }
-
     File[] vanFiles = new File("resources/vans/").listFiles();
     if (vanFiles != null) {
       for (File file : vanFiles) {
-        try {
-          vans.add(new Warehouse(file));
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
-          System.exit(2);
-        } catch (IndexOutOfBoundsException e) {
-          //unknown cause
-        }
+        vans.add(new Warehouse(file));
       }
     }
   }
 
+  /**
+   * Saves the Main Warehouse and all vans to .txt files.
+   *
+   * @throws IOException if something goes wrong saving.
+   */
   void save() throws IOException {
     mwh.save();
     for (Warehouse v : vans) {
@@ -49,6 +51,13 @@ public class Fleet {
     }
   }
 
+  /**
+   * Reads an inventory file into the specified Warehouse.
+   *
+   * @param file File to be read in.
+   * @param choice String name of the Warehouse.
+   * @throws FileNotFoundException if the file does not exist.
+   */
   void readInventory(File file, String choice) throws FileNotFoundException {
     if (choice.equals("Main")) {
       modifyInv(file, mwh);
@@ -62,6 +71,13 @@ public class Fleet {
     }
   }
 
+  /**
+   * Adds parts in the file into Warehouse wh.
+   *
+   * @param file File to be read in.
+   * @param wh Warehouse where parts go.
+   * @throws FileNotFoundException if the file does not exist.
+   */
   private void modifyInv(File file, Warehouse wh) throws FileNotFoundException {
     Scanner in = new Scanner(file);
     while (in.hasNextLine()) {
@@ -70,6 +86,11 @@ public class Fleet {
     }
   }
 
+  /**
+   * Adds the Part specified by strings to the specified Warehouse.
+   *
+   * @param strings String[] of Part and Warehouse information.
+   */
   void enterPart(String[] strings) {
     if (strings[6].equals("Main")) {
       mwh.addPart(strings);
@@ -82,8 +103,16 @@ public class Fleet {
     }
   }
 
+  /**
+   * Attempts to sell a Part specified by partNumber from the specified Warehouse. Returns sale info
+   * if successful.
+   *
+   * @param choice String of the Warehouse name.
+   * @param partNumber int of the partNumber.
+   * @return String[] of sale information.
+   */
   String[] sell(String choice, int partNumber) {
-    String[] info = null;
+    String[] info;
     int index;
     if (choice.equals("Main")) {
       index = mwh.getIndex(partNumber);
@@ -105,6 +134,12 @@ public class Fleet {
     return null;
   }
 
+  /**
+   * Displays information about the Part specified by partName.
+   *
+   * @param partName String name of the Part.
+   * @return String of Part information.
+   */
   String display(String partName) {
     for (Part p : Part.existingParts) {
       if (p.getPartName().equals(partName)) {
@@ -114,6 +149,12 @@ public class Fleet {
     return null;
   }
 
+  /**
+   * Sorts Parts in the specified Warehouse by name and returns them as a String.
+   *
+   * @param choice Warehouse(s) chosen to be sorted.
+   * @return String representation of all sorted parts.
+   */
   String sortName(String choice) {
     StringBuilder str = new StringBuilder();
     switch (choice) {
@@ -142,6 +183,12 @@ public class Fleet {
     return str.toString();
   }
 
+  /**
+   * Sorts Parts in the specified Warehouse by number and returns them as a String.
+   *
+   * @param choice Warehouse(s) chosen to be sorted.
+   * @return String representation of all sorted parts.
+   */
   String sortNumber(String choice) {
     StringBuilder str = new StringBuilder();
     switch (choice) {
@@ -170,6 +217,12 @@ public class Fleet {
     return str.toString();
   }
 
+  /**
+   * Attempts to add a new van to vans, returns success status.
+   *
+   * @param vanName String name of the van to be added.
+   * @return boolean true if successful, false if not.
+   */
   boolean addVan(String vanName) {
     for (Warehouse v : vans) {
       if (v.getName().equals(vanName)) {
@@ -180,6 +233,13 @@ public class Fleet {
     return true;
   }
 
+  /**
+   * Attempts to move parts from one Warehouse to another.
+   *
+   * @param moveFile File that specifies parts to be moved, and locations they're moved to or from.
+   * @return int representation of success status, <1 = failure.
+   * @throws FileNotFoundException if moveFile cannot be found.
+   */
   int moveParts(File moveFile) throws FileNotFoundException {
     Scanner in = new Scanner(moveFile);
     String[] names = in.nextLine().split(",");

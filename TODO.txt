@@ -6,8 +6,12 @@
   -Make sure everything has fxids and actionEvents
 -Controller:
   -Everything
+  -JavaDoc
+  -Testing
+  -method updateComboBoxes
 -Main:
   -Everything
+  -JavaDoc
+  -Testing
 -General:
-  -Update JavaDoc
   -Unit Testing

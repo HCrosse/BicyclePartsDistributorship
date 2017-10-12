@@ -17,7 +17,7 @@ public class Warehouse {
   private ArrayList<InventoryPart> partArrayList = new ArrayList<>();
 
   /**
-   * Default constructor, sets databaseFile to null.
+   * Default constructor, sets name and databaseFile to null.
    */
   public Warehouse() {
     name = null;
@@ -27,12 +27,13 @@ public class Warehouse {
   /**
    * Sets databaseFile to dbFilename, reads databaseFile into partArrayList.
    *
-   * @param databaseFile
+   * @param dbFile File where Warehouse will be saved.
    * @throws FileNotFoundException if databaseFile cannot be found.
-   * @throws IndexOutOfBoundsException happened once with an empty database, unsure if it will re-occur.
+   * @throws IndexOutOfBoundsException happened once with an empty database,
+   * unsure if it will re-occur.
    */
-  public Warehouse(File databaseFile) throws FileNotFoundException, IndexOutOfBoundsException {
-    this.databaseFile = databaseFile;
+  public Warehouse(File dbFile) throws FileNotFoundException, IndexOutOfBoundsException {
+    this.databaseFile = dbFile;
     Scanner readDB = new Scanner(databaseFile);
     name = readDB.nextLine();
     while (readDB.hasNextLine()) {
@@ -42,6 +43,11 @@ public class Warehouse {
     readDB.close();
   }
 
+  /**
+   * Sets databaseFile to a new File where the Warehouse will be saved.
+   *
+   * @param whName String name of the Warehouse.
+   */
   public Warehouse(String whName) {
     this.name = whName;
     if (whName.equals("Main")) {
@@ -54,7 +60,7 @@ public class Warehouse {
   }
 
   /**
-   * Saves partArrayList into the databaseFile.
+   * Saves name and partArrayList into the databaseFile.
    *
    * @throws IOException if file write is unsuccessful.
    */
@@ -70,10 +76,11 @@ public class Warehouse {
     pWriter.close();
   }
 
-  String getName() {
-    return name;
-  }
-
+  /**
+   * Decrements the quantity of the part at index by 1 if the quantity is greater than 0.
+   *
+   * @return String[] containing partName, partPrice, and current Date.
+   */
   String[] decrement(int index) {
     InventoryPart soldPart = getPart(index);
     int status = soldPart.decrement();
@@ -88,6 +95,14 @@ public class Warehouse {
     return str;
   }
 
+  /**
+   * Reduces the quantity of a part at index by the quantity specified.
+   *
+   * @param index int index of the part to be reduced.
+   * @param quantity int amount to reduce by.
+   * @return int status, -1 = failure, 0 = success with new remaining quantity of 0, 1 = success
+   * with >0 remaining quantity.
+   */
   int sell(int index, int quantity) {
     return getPart(index).sell(quantity);
   }
@@ -102,9 +117,9 @@ public class Warehouse {
   }
 
   /**
-   * Adds a part to partArrayList.
+   * Adds a new to or updates an existing part in partArrayList.
    *
-   * @param newPart InventoryPart to be added.
+   * @param strings String[] for InventoryPart to be added.
    */
   void addPart (String[] strings) {
     int index = getIndex(strings[0]);
@@ -148,6 +163,14 @@ public class Warehouse {
   private String[] padString(int partNumber) {
     return new String[] {"", String.valueOf(partNumber), "-1", "-1", "false", "-1"};
   }
+  /**
+   * Gets name.
+   *
+   * @return String name.
+   */
+  String getName() {
+    return name;
+  }
 
   /**
    * Gets the databaseFile.
@@ -187,7 +210,7 @@ public class Warehouse {
     String strings[] = padString(partName);
     InventoryPart otherPart = new InventoryPart(strings);
     for (int i = 0; i < partArrayList.size(); i++) {
-      if (partArrayList.get(i).getPart().equals(otherPart.getPart())) {
+      if (partArrayList.get(i).equals(otherPart)) {
         return i;
       }
     }
@@ -204,7 +227,7 @@ public class Warehouse {
     String strings[] = padString(partNumber);
     InventoryPart otherPart = new InventoryPart(strings);
     for (int i = 0; i < partArrayList.size(); i++) {
-      if (partArrayList.get(i).getPart().equals(otherPart.getPart())) {
+      if (partArrayList.get(i).equals(otherPart)) {
         return i;
       }
     }
@@ -219,6 +242,8 @@ public class Warehouse {
   @Override
   public String toString() {
     StringBuilder str = new StringBuilder();
+    str.append(name);
+    str.append("\n");
     for (InventoryPart element : partArrayList) {
       str.append(element.toString());
       str.append("\n");
@@ -227,6 +252,12 @@ public class Warehouse {
     return str.toString();
   }
 
+  /**
+   * Tests for equality between this and another Warehouse.
+   *
+   * @param o Warehouse o
+   * @return boolean true if this equal o, false if not.
+   */
   @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) {

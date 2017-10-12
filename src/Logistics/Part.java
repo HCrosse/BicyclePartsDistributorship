@@ -20,12 +20,7 @@ public class Part {
   static ArrayList<Part> existingParts;
 
   /**
-   * Default constructor, sets partName to "", partNumber to -1.
-   */
-  public Part() {}
-
-  /**
-   * Sets partName and partNumber based upon strings.
+   * Initializes part fields based upon strings.
    *
    * @param strings String[] of part information.
    */
@@ -38,6 +33,30 @@ public class Part {
   }
 
   /**
+   * Returns an existing Part if it exists or a new Part if it doesn't.
+   *
+   * @param strings String[] of part information.
+   * @return Part either existing or new Part.
+   */
+  static Part partFactory(String[] strings) {
+    if (existingParts == null) {
+      existingParts = new ArrayList<>();
+    }
+    for (Part p : existingParts) {
+      if (strings[0].equals(p.getPartName()) ||
+          Integer.parseInt(strings[1]) == (p.getPartNumber())) {
+        return p;
+      }
+    }
+    if (strings[0].equals("") || strings[1].equals("-1")) {
+      return new Part(strings);
+    }
+    Part newPart = new Part(strings);
+    existingParts.add(newPart);
+    return newPart;
+  }
+
+  /**
    * Updates listPrice, salePrice, and onSale.
    *
    * @param strings String[] from inventory file.
@@ -46,20 +65,6 @@ public class Part {
     listPrice = Double.parseDouble(strings[2]);
     salePrice = Double.parseDouble(strings[3]);
     onSale = Boolean.parseBoolean(strings[4]);
-  }
-
-  static Part partFactory(String[] strings) {
-    if (existingParts == null) {
-      existingParts = new ArrayList<Part>();
-    }
-    for (Part p : existingParts) {
-      if (strings[0].equals(p.getPartName()) || strings[1].equals(p.getPartNumber())) {
-        return p;
-      }
-    }
-    Part newPart = new Part(strings);
-    existingParts.add(newPart);
-    return newPart;
   }
 
   /**
@@ -96,7 +101,8 @@ public class Part {
     }
     else {
       Part other = (Part)o;
-      return (this.partName.equals(other.getPartName()) || this.partNumber == other.getPartNumber());
+      return (this.partName.equals(other.getPartName()) ||
+          this.partNumber == other.getPartNumber());
     }
   }
 
