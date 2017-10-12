@@ -86,27 +86,6 @@ public class Part {
   }
 
   /**
-   * Determines if this part equals o.
-   *
-   * @param o Other part.
-   * @return boolean equals.
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    else if (this == o) {
-      return true;
-    }
-    else {
-      Part other = (Part)o;
-      return (this.partName.equals(other.getPartName()) ||
-          this.partNumber == other.getPartNumber());
-    }
-  }
-
-  /**
    * Returns the listPrice.
    *
    * @return double listPrice.
@@ -160,4 +139,26 @@ public class Part {
   public String toString() {
     return (partName + "," + partNumber + "," + listPrice + "," + salePrice + "," + onSale);
   }
+
+  /**
+   * Determines if this part equals o.
+   *
+   * @param o Other part.
+   * @return boolean equals.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    else if (this == o) {
+      return true;
+    }
+    else {
+      Part other = (Part)o;
+      return (this.partName.equals(other.getPartName()) ||
+          this.partNumber == other.getPartNumber());
+    }
+  }
+
 }
