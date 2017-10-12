@@ -1,3 +1,5 @@
+package Logistics;
+
 import java.io.*;
 import java.util.*;
 
@@ -5,13 +7,12 @@ import java.util.*;
  * The Main class provides a user interface for the Warehouse simulation.
  *
  * @author Harrison Crosse
- * @version 1.5
+ * @version 2.0
  */
 
 public class Main {
 
   private static Scanner keyboard = new Scanner(System.in);
-  private static Warehouse wh;
 
   /**
    * Reads warehouseDB.txt into the Warehouse wh, manages console UI.
@@ -19,15 +20,6 @@ public class Main {
    * @param args CLI Arguments.
    */
   public static void main(String[] args) {
-    try {
-      wh = new Warehouse("resources/warehouseDB.txt");
-    } catch (FileNotFoundException e) {
-      System.out.println("Error: Database File Not Found.");
-      e.printStackTrace();
-      System.exit(1);
-    } catch (IndexOutOfBoundsException e) {
-      //thrown by empty warehouseDB
-    }
 
     boolean needInput = true;
     while (needInput) {
@@ -84,15 +76,7 @@ public class Main {
   /**
    * Saves wh to warehouse.txt.
    */
-  private static void save() {
-   try {
-     wh.save();
-   } catch (IOException e) {
-     System.out.println("Error: Unable to save file.");
-     e.printStackTrace();
-     System.exit(1);
-   }
-  }
+
 
   /**
    * Reads inventory.txt and either adds new InventoryParts or updates existing InventoryParts in
@@ -137,12 +121,7 @@ public class Main {
     System.out.println("What is the quantity of the part?");
     newPart += keyboard.nextLine();
     String[] strings = newPart.split(",");
-    int index = wh.getIndex(strings[0]);
-    if (index >= 0) {
-      wh.getPart(index).updateValues(strings);
-    } else {
-      wh.addPart(new InventoryPart(strings));
-    }
+    wh.addPart(strings);
   }
 
   /**

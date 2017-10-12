@@ -1,3 +1,5 @@
+package Logistics;
+
 import java.io.*;
 import java.util.*;
 
@@ -5,36 +7,44 @@ import java.util.*;
  * The Warehouse class simulates a warehouse of InventoryParts.
  *
  * @author Harrison Crosse
- * @version 1.0
+ * @version 2.0
  */
 
 public class Warehouse {
 
+  private String name;
   private File databaseFile;
   private ArrayList<InventoryPart> partArrayList = new ArrayList<>();
 
   /**
    * Default constructor, sets databaseFile to null.
    */
-  Warehouse() {
+  public Warehouse() {
+    name = null;
     databaseFile = null;
   }
 
   /**
    * Sets databaseFile to dbFilename, reads databaseFile into partArrayList.
    *
-   * @param dbFilename String filename of the database file.
+   * @param databaseFile
    * @throws FileNotFoundException if databaseFile cannot be found.
    * @throws IndexOutOfBoundsException happened once with an empty database, unsure if it will re-occur.
    */
-  Warehouse(String dbFilename) throws FileNotFoundException, IndexOutOfBoundsException {
-    databaseFile = new File(dbFilename);
+  public Warehouse(File databaseFile) throws FileNotFoundException, IndexOutOfBoundsException {
+    this.databaseFile = databaseFile;
     Scanner readDB = new Scanner(databaseFile);
+    name = readDB.nextLine();
     while (readDB.hasNextLine()) {
       String line = readDB.nextLine();
       partArrayList.add(new InventoryPart(line.split(",")));
     }
     readDB.close();
+  }
+
+  public Warehouse(String whName) {
+    this.name = whName;
+    databaseFile = new File(name.replaceAll("[^a-zA-Z]+", "").toLowerCase());
   }
 
   /**
@@ -47,10 +57,29 @@ public class Warehouse {
     FileWriter fWriter;
     fWriter = new FileWriter(databaseFile);
     PrintWriter pWriter = new PrintWriter(fWriter);
+    pWriter.println(name);
     for (InventoryPart element : partArrayList) {
       pWriter.println(element);
     }
     pWriter.close();
+  }
+
+  String getName() {
+    return name;
+  }
+
+  String[] decrement(int index) {
+    InventoryPart soldPart = getPart(index);
+    int status = soldPart.decrement();
+    if (status < 1) {
+      removePart(index);
+    }
+    if (status < 0) {
+      return null;
+    }
+    String[] str = {soldPart.getPartName(), Double.toString(soldPart.getPrice()),
+        new Date().toString()};
+    return str;
   }
 
   /**
@@ -67,8 +96,14 @@ public class Warehouse {
    *
    * @param newPart InventoryPart to be added.
    */
-  void addPart (InventoryPart newPart) {
-    partArrayList.add(newPart);
+  void addPart (String[] strings) {
+
+    int index = getIndex(strings[0]);
+    if (index >= 0) {
+      getPart(index).updateValues(strings);
+    } else {
+      partArrayList.add(new InventoryPart(strings));
+    }
   }
 
   /**
@@ -82,7 +117,7 @@ public class Warehouse {
    * Sorts partArrayList by number.
    */
   void sortNumber() {
-    Collections.sort(partArrayList, Part.SORT_BY_NUM);
+    Collections.sort(partArrayList, InventoryPart.SORT_BY_NUM);
   }
 
   /**
@@ -110,7 +145,7 @@ public class Warehouse {
    *
    * @return File databaseFile.
    */
-  File getDatabaseFile() {
+  File getFile() {
     return databaseFile;
   }
 
@@ -129,7 +164,7 @@ public class Warehouse {
    * @param index int index of part.
    * @return InventoryPart.
    */
-  InventoryPart getPart (int index) {
+  InventoryPart getPart(int index) {
     return partArrayList.get(index);
   }
 
@@ -143,7 +178,7 @@ public class Warehouse {
     String strings[] = padString(partName);
     InventoryPart otherPart = new InventoryPart(strings);
     for (int i = 0; i < partArrayList.size(); i++) {
-      if (partArrayList.get(i).equals(otherPart)) {
+      if (partArrayList.get(i).getPart().equals(otherPart.getPart())) {
         return i;
       }
     }
@@ -160,7 +195,7 @@ public class Warehouse {
     String strings[] = padString(partNumber);
     InventoryPart otherPart = new InventoryPart(strings);
     for (int i = 0; i < partArrayList.size(); i++) {
-      if (partArrayList.get(i).equals(otherPart)) {
+      if (partArrayList.get(i).getPart().equals(otherPart.getPart())) {
         return i;
       }
     }
@@ -179,7 +214,22 @@ public class Warehouse {
       str.append(element.toString());
       str.append("\n");
     }
+    str.append("\n*****\n\n");
     return str.toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    else if (this == o) {
+      return true;
+    }
+    else {
+      Warehouse other = (Warehouse) o;
+      return (this.name.equals(other.getName()));
+    }
   }
 
 }

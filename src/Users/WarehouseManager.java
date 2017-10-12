@@ -1,3 +1,6 @@
+package Users;
+
+import Logistics.Warehouse;
 import java.io.FileNotFoundException;
 
 public class WarehouseManager extends LoginAccount {
