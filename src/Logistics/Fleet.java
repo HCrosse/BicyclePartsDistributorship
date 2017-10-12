@@ -3,10 +3,17 @@ package Logistics;
 import java.io.*;
 import java.util.*;
 
+/**
+ * The Fleet class models a Main Warehouse and a fleet of Sales Vans.
+ *
+ * @author Harrison Crosse
+ * @version 1.0
+ */
+
 public class Fleet {
 
-  private static Warehouse mwh;
-  private static ArrayList<Warehouse> vans = new ArrayList<>();
+  private Warehouse mwh;
+  private ArrayList<Warehouse> vans = new ArrayList<>();
 
   /**
    * Initializes the fleet.

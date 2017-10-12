@@ -156,6 +156,6 @@ public class InventoryPart implements Comparable<InventoryPart> {
    * Compares first.part.partNumber with second.part.partNumber.
    */
   static final Comparator<InventoryPart> SORT_BY_NUM = (first, second) ->
-      first.getPart().getPartNumber() - second.getPart().getPartNumber();
+      first.getPart().getPartNumber() - second.part.getPartNumber();
 
 }
