@@ -23,6 +23,5 @@ public class DistributorshipController {
       e.printStackTrace();
     }
   }
-
-
+  
 }
