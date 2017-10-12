@@ -44,7 +44,13 @@ public class Warehouse {
 
   public Warehouse(String whName) {
     this.name = whName;
-    databaseFile = new File(name.replaceAll("[^a-zA-Z]+", "").toLowerCase());
+    if (whName.equals("Main")) {
+      databaseFile = new File("resources/warehouse/main.txt");
+    } else {
+      String fileName = ("resources/vans/" + whName.replaceAll("[^a-zA-Z]+", "") +
+          ".txt");
+      databaseFile = new File(fileName);
+    }
   }
 
   /**
@@ -82,6 +88,10 @@ public class Warehouse {
     return str;
   }
 
+  int sell(int index, int quantity) {
+    return getPart(index).sell(quantity);
+  }
+
   /**
    * Removes the part at index from partArrayList.
    *
@@ -97,7 +107,6 @@ public class Warehouse {
    * @param newPart InventoryPart to be added.
    */
   void addPart (String[] strings) {
-
     int index = getIndex(strings[0]);
     if (index >= 0) {
       getPart(index).updateValues(strings);
@@ -164,7 +173,7 @@ public class Warehouse {
    * @param index int index of part.
    * @return InventoryPart.
    */
-  InventoryPart getPart(int index) {
+  private InventoryPart getPart(int index) {
     return partArrayList.get(index);
   }
 

@@ -13,14 +13,18 @@ public class Fleet {
   }
 
   private void initFleet() throws FileNotFoundException, IndexOutOfBoundsException {
-    try {
-      mwh = new Warehouse(new File("resources/warehouse/warehouseDB.txt"));
-    } catch (FileNotFoundException e) {
-      System.out.println("Error: Database File for Main Warehouse Not Found.");
-      e.printStackTrace();
-      System.exit(1);
-    } catch (IndexOutOfBoundsException e) {
-      //unknown cause
+    File mainFile = new File("resources/warehouse/Main.txt");
+    if (mainFile.exists()) {
+      try {
+        mwh = new Warehouse(mainFile);
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+        System.exit(1);
+      } catch (IndexOutOfBoundsException e) {
+        //unknown cause
+      }
+    } else {
+      mwh = new Warehouse("Main");
     }
 
     File[] vanFiles = new File("resources/vans/").listFiles();
@@ -42,6 +46,39 @@ public class Fleet {
     mwh.save();
     for (Warehouse v : vans) {
       v.save();
+    }
+  }
+
+  void readInventory(File file, String choice) throws FileNotFoundException {
+    if (choice.equals("Main")) {
+      modifyInv(file, mwh);
+    } else {
+      for (Warehouse v : vans) {
+        if (choice.equals(v.getName())) {
+          modifyInv(file, v);
+          return;
+        }
+      }
+    }
+  }
+
+  private void modifyInv(File file, Warehouse wh) throws FileNotFoundException {
+    Scanner in = new Scanner(file);
+    while (in.hasNextLine()) {
+      String[] strings = in.nextLine().split(",");
+      wh.addPart(strings);
+    }
+  }
+
+  void enterPart(String[] strings) {
+    if (strings[6].equals("Main")) {
+      mwh.addPart(strings);
+    } else {
+      for (Warehouse v : vans) {
+        if (strings[6].equals(v.getName())) {
+          v.addPart(strings);
+        }
+      }
     }
   }
 
@@ -74,7 +111,7 @@ public class Fleet {
         return p.display();
       }
     }
-    return "";
+    return null;
   }
 
   String sortName(String choice) {
@@ -170,7 +207,7 @@ public class Fleet {
       if (index < 0) {
         return -2;
       }
-      int contains = locations[0].getPart(index).sell(Integer.parseInt(strings[1]));
+      int contains = locations[0].sell(index, Integer.parseInt(strings[1]));
       if (contains == 0) {
         locations[0].removePart(index);
       } else if (contains == -1) {

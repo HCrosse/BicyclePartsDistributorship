@@ -1,185 +1,133 @@
 package Logistics;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-/**
- * The Main class provides a user interface for the Warehouse simulation.
- *
- * @author Harrison Crosse
- * @version 2.0
- */
+public class Main extends Application {
 
-public class Main {
+  private static Fleet fleet;
 
-  private static Scanner keyboard = new Scanner(System.in);
+  @Override
+  public void start(Stage primaryStage) throws Exception{
+    Parent root = FXMLLoader.load(getClass().getResource("DistributorshipOverview.fxml"));
+    primaryStage.setTitle("Bicycle Part Distributorship");
+    primaryStage.setScene(new Scene(root, 960, 540));
+    primaryStage.show();
+  }
 
-  /**
-   * Reads warehouseDB.txt into the Warehouse wh, manages console UI.
-   *
-   * @param args CLI Arguments.
-   */
+
   public static void main(String[] args) {
+    try {
+      fleet = new Fleet();
+    } catch (FileNotFoundException e) {
+      System.out.println("Error: Database File for Main Warehouse Not Found.");
+      e.printStackTrace();
+      System.exit(1);
+    } catch (IndexOutOfBoundsException e) {
+      e.printStackTrace();
+    }
+    launch(args);
+  }
 
-    boolean needInput = true;
-    while (needInput) {
-      String menuChoice = printMenu();
-      switch (menuChoice) {
-        case "Read":
-          readInventory();
+  @Override
+  public void stop(){
+    save();
+  }
+
+  private static void save() {
+    try {
+      fleet.save();
+    } catch (IOException e) {
+      System.out.println("Error: Unable to save file.");
+      e.printStackTrace();
+      System.exit(-1);
+    }
+  }
+  /* ALL FOLLOWING ARE TRIGGERED BY BUTTON PRESS ON RESPECTIVE TABS
+     AND TAKE INFO FROM DROP-DOWNS/CHECKS/TEXT-FIELDS
+
+  private static void readInventory() {
+    //get inventory file from dropdown - as string
+    //get location from dropdown - save as string
+    try {
+      fleet.readInventory(new File(file), location);
+    } catch (FileNotFoundException e) {
+      //display error somehow
+      e.printStackTrace();
+    }
+  }
+
+  private static void enterPart() {
+    String[] strings;
+    //get strings from text fields
+    fleet.enterPart(strings);
+  }
+
+  private static void sell() {
+    //String choice from dropdown
+    //int partNumber from text field
+    String[] info = fleet.sell(choice, partNumber);
+    if (info == null) {
+      //display error
+      return;
+    }
+    //display info in info
+  }
+
+  private static void display(){
+    //get partName from text field
+    String str = fleet.display(partName);
+    if (str == null) {
+      //display error
+    }
+    //display info in str
+  }
+
+  private static void sortName() {
+    //get choice from dropdown
+    String str = fleet.sortName(choice)
+    //display str
+  }
+
+  private static void sortNumber() {
+    //get choice from dropdown
+    String str = fleet.sortNumber(choice)
+    //display str
+  }
+
+  private static void addVan() {
+    //get name from somewhere, idk how controller works
+    boolean vanNew = fleet.addVan(vanName)
+    if (!vanNew) {
+      //display error
+    }
+  }
+
+  private static void moveParts() {
+    //get file name/path/file from somewhere
+    //resources/move/FILENAME.txt
+    int status = fleet.moveParts(moveFile);
+    if (status < 0) {
+      switch (status) {
+        choice -1:
+          //display error
           break;
-        case "Enter":
-          enterPart();
+        choice -2:
+          //display error
           break;
-        case "Sell":
-          sellPart();
-          break;
-        case "Display":
-          displayPart();
-          break;
-        case "SortName":
-          sortName();
-          break;
-        case "SortNumber":
-          sortNumber();
-          break;
-        case "Quit":
-          save();
-          needInput = false;
+        choice -3:
+          //display error
           break;
         default:
-          System.out.println("Error: Invalid input entered.");
+          //display error
           break;
       }
     }
-
   }
-
-  /**
-   * Prints the user menu and returns the user input.
-   *
-   * @return String of user input.
-   */
-  private static String printMenu() {
-    System.out.println("\nPlease select your option from the following menu:");
-    System.out.println("Read: Read an inventory delivery file");
-    System.out.println("Enter: Enter a part");
-    System.out.println("Sell: Sell a part");
-    System.out.println("Display: Display a part");
-    System.out.println("SortName: Sort parts by part name");
-    System.out.println("SortNumber: Sort parts by part number");
-    System.out.println("Quit");
-    System.out.println("Enter your choice:");
-    return keyboard.nextLine();
-  }
-
-  /**
-   * Saves wh to warehouse.txt.
-   */
-
-
-  /**
-   * Reads inventory.txt and either adds new InventoryParts or updates existing InventoryParts in
-   * wh.
-   */
-  private static void readInventory() {
-    System.out.println("What is the inventory delivery file's name?");
-    File invFile = new File("resources/" + keyboard.nextLine());
-    Scanner readInv;
-    try {
-      readInv = new Scanner(invFile);
-    } catch (FileNotFoundException e) {
-      System.out.println("Error: File not found.");
-      return;
-    }
-    while (readInv.hasNextLine()) {
-      String[] strings = readInv.nextLine().split(",");
-      int index = wh.getIndex(strings[0]);
-      if (index >= 0) {
-        wh.getPart(index).updateValues(strings);
-      } else {
-        wh.addPart(new InventoryPart(strings));
-      }
-    }
-    readInv.close();
-  }
-
-  /**
-   * Allows for manual addition or updating of a InventoryPart to wh.
-   */
-  private static void enterPart() {
-    System.out.println("What is the part's name?");
-    String newPart = keyboard.nextLine() + ",";
-    System.out.println("What is the part's number?");
-    newPart += keyboard.nextLine() + ",";
-    System.out.println("What is the part's list price?");
-    newPart += keyboard.nextLine() + ",";
-    System.out.println("What is the part's sale price?");
-    newPart += keyboard.nextLine() + ",";
-    System.out.println("Is the part on sale?");
-    newPart += keyboard.nextLine() + ",";
-    System.out.println("What is the quantity of the part?");
-    newPart += keyboard.nextLine();
-    String[] strings = newPart.split(",");
-    wh.addPart(strings);
-  }
-
-  /**
-   * If the part being sold exists, decrements its quantity by one and removes it from wh if the
-   * new quantity is zero.
-   */
-  private static void sellPart() {
-    InventoryPart soldPart;
-    System.out.println("What is the part's number?");
-    int partNumber = Integer.parseInt(keyboard.nextLine());
-    int index = wh.getIndex(partNumber);
-    if (index >= 0) {
-      soldPart = wh.getPart(index);
-    } else {
-      System.out.println("Error: Part not found.");
-      return;
-    }
-    if (soldPart.getSaleStatus()) {
-      System.out.println("Part is on sale.");
-    } else {
-      System.out.println("Part is not on sale.");
-    }
-    System.out.println("Part sold " + new Date().toString());
-    int successful = soldPart.decrement();
-    if (successful < 1) {
-      wh.removePart(index);
-    }
-  }
-
-  /**
-   * Prints out the partName + active price if the part exists.
-   */
-  private static void displayPart() {
-    System.out.println("What is the part's name?");
-    String partName = keyboard.nextLine();
-    int index = wh.getIndex(partName);
-    if (index >= 0) {
-      System.out.println(wh.getPart(index).display());
-    } else {
-      System.out.println("Error: Part not found.");
-    }
-
-  }
-
-  /**
-   * Sorts wh by partName.
-   */
-  private static void sortName() {
-    wh.sortName();
-    System.out.print(wh.toString());
-  }
-
-  /**
-   * Sorts wh by partNumber
-   */
-  private static void sortNumber() {
-    wh.sortNumber();
-    System.out.print(wh.toString());
-  }
-
+  */
 }

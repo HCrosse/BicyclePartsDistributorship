@@ -2,13 +2,14 @@ ALL:
 Update JavaDoc
 Unit Testing
 
-Fleet:
-Enter
-ReadInventory
-MWH Initialization
-
 Main:
+GUI Integration
+
+Controller/GUI:
 Everything
 
-Controller:
-Everything
+
+TESTING:
+Van init
+Van/Main persistence
+All functions of fleet/GUI
