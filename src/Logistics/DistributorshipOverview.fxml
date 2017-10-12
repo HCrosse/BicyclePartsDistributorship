@@ -12,14 +12,13 @@
 <!--prefHeight="400.0" prefWidth="600.0">-->
 <!--</AnchorPane>-->
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -28,7 +27,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logistics.DistributorshipController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logistics.DistributorshipController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -43,10 +42,11 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <ChoiceBox fx:id="invFile" layoutX="183.0" layoutY="18.0" prefHeight="25.0" prefWidth="200.0" />
-                        <Button fx:id="invOkay" layoutX="717.0" layoutY="18.0" mnemonicParsing="false" text="Okay" />
+                        <Button fx:id="invOkay" layoutX="717.0" layoutY="18.0" mnemonicParsing="false" text="Read" />
                         <Label layoutX="66.0" layoutY="22.0" text="Inventory File Name:" />
                         <ChoiceBox fx:id="invLocation" layoutX="480.0" layoutY="18.0" prefWidth="200.0" />
                         <Label layoutX="424.0" layoutY="22.0" text="Location:" />
+                        <TextArea disable="true" layoutX="173.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -56,40 +56,19 @@
                   <AnchorPane prefHeight="742.0" prefWidth="1105.0">
                      <children>
                         <ChoiceBox fx:id="enterLocation" layoutX="163.0" layoutY="24.0" prefWidth="150.0" />
-                        <Label layoutX="107.0" layoutY="28.0" text="Location:" />
-                        <VBox layoutX="480.0" layoutY="28.0" prefHeight="200.0" prefWidth="73.0" spacing="20.0">
-                           <children>
-                              <Label text="Part Name:">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                              </Label>
-                              <Label text="Part Number:" />
-                              <Label text="List Price:" />
-                              <Label text="Sale Price:" />
-                              <Label text="On Sale:" />
-                              <Label text="Quantity:" />
-                           </children>
-                        </VBox>
-                        <Button fx:id="enterOkay" layoutX="629.0" layoutY="255.0" mnemonicParsing="false" text="Okay" />
+                        <Label layoutX="95.0" layoutY="29.0" text="Location:" />
+                        <Button fx:id="enterOkay" layoutX="629.0" layoutY="255.0" mnemonicParsing="false" text="Enter" />
                         <VBox layoutX="558.0" layoutY="28.0" prefHeight="209.0" prefWidth="185.0" spacing="12.0">
                            <children>
-                              <TextField fx:id="enterName" />
-                              <TextField fx:id="enterNum" />
-                              <TextField fx:id="enterLP" />
-                              <TextField fx:id="enterSP" />
-                              <HBox prefHeight="20.0" prefWidth="255.0" spacing="40.0">
-                                 <padding>
-                                    <Insets left="20.0" />
-                                 </padding>
-                                 <children>
-                                    <CheckBox fx:id="enterSaleTrue" mnemonicParsing="false" text="True" />
-                                    <CheckBox fx:id="enterSaleFalse" mnemonicParsing="false" prefWidth="74.0" text="False" />
-                                 </children>
-                              </HBox>
-                              <TextField fx:id="enterQuantity" prefWidth="255.0" />
+                              <TextField fx:id="enterName" promptText="Part Name" />
+                              <TextField fx:id="enterNum" promptText="Part Number" />
+                              <TextField fx:id="enterLP" promptText="List Price" />
+                              <TextField fx:id="enterSP" promptText="Sale Price" />
+                              <TextField fx:id="enterQuantity" prefWidth="255.0" promptText="Quantity" />
                            </children>
                         </VBox>
+                        <RadioButton fx:id="enterOnSale" layoutX="396.0" layoutY="193.0" mnemonicParsing="false" text="Part on Sale" />
+                        <TextArea disable="true" layoutX="85.0" layoutY="137.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -101,10 +80,10 @@
                         <AnchorPane prefHeight="511.0" prefWidth="960.0">
                            <children>
                               <ChoiceBox fx:id="sellLocation" layoutX="248.0" layoutY="21.0" prefWidth="200.0" />
-                              <Button fx:id="sellOkay" layoutX="616.0" layoutY="53.0" mnemonicParsing="false" text="Okay" />
-                              <Label layoutX="480.0" layoutY="25.0" text="Part Number:" />
-                              <TextField fx:id="sellNumber" layoutX="564.0" layoutY="21.0" />
+                              <Button fx:id="sellOkay" layoutX="616.0" layoutY="53.0" mnemonicParsing="false" text="Sell" />
+                              <TextField fx:id="sellNumber" layoutX="564.0" layoutY="21.0" promptText="Part Number" />
                               <Label layoutX="190.0" layoutY="25.0" text="Location:" />
+                              <TextArea disable="true" layoutX="317.0" layoutY="156.0" prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -114,10 +93,10 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="displayName" layoutX="406.0" layoutY="22.0" />
-                        <Button fx:id="displayOkay" layoutX="568.0" layoutY="22.0" mnemonicParsing="false" text="Okay" />
-                        <Label layoutX="338.0" layoutY="26.0" text="Part Name:" />
+                        <TextField fx:id="displayName" layoutX="406.0" layoutY="22.0" promptText="Part Name" />
+                        <Button fx:id="displayOkay" layoutX="568.0" layoutY="22.0" mnemonicParsing="false" text="Display" />
                         <Label fx:id="displayLabel" alignment="CENTER" layoutX="296.0" layoutY="75.0" prefHeight="40.0" prefWidth="367.0" />
+                        <TextArea disable="true" layoutX="426.0" layoutY="154.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -126,25 +105,13 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <HBox alignment="CENTER" layoutX="303.0" layoutY="14.0" prefHeight="17.0" prefWidth="354.0" spacing="25.0">
-                           <children>
-                              <Label text="Search:" />
-                              <CheckBox fx:id="sortNameAll" mnemonicParsing="false" text="All" />
-                              <CheckBox fx:id="sortNameMain" mnemonicParsing="false" text="Main Warehouse" />
-                              <CheckBox fx:id="sortNameVans" mnemonicParsing="false" text="Specific Van" />
-                           </children>
-                        </HBox>
+                        <HBox alignment="CENTER" layoutX="303.0" layoutY="14.0" prefHeight="17.0" prefWidth="354.0" spacing="25.0" />
                         <Label layoutX="303.0" layoutY="42.0" text="Van Name:" />
-                        <Button fx:id="sortNameOkay" layoutX="613.0" layoutY="38.0" mnemonicParsing="false" text="Okay" />
+                        <Button fx:id="sortNameOkay" layoutX="613.0" layoutY="38.0" mnemonicParsing="false" text="Sort" />
                         <ChoiceBox fx:id="sortNameVanName" layoutX="380.0" layoutY="38.0" prefWidth="200.0" />
-                        <ScrollPane layoutY="77.0" prefHeight="433.0" prefWidth="960.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="433.0" prefWidth="967.0">
-                                 <children>
-                                    <Label fx:id="sortNameLabel" alignment="TOP_LEFT" layoutX="1.0" layoutY="14.0" prefHeight="404.0" prefWidth="943.0" />
-                                 </children></AnchorPane>
-                           </content>
-                        </ScrollPane>
+                        <ChoiceBox layoutX="86.0" layoutY="29.0" prefWidth="150.0" />
+                        <Label layoutX="28.0" layoutY="42.0" text="Choice:" />
+                        <TextArea disable="true" layoutX="380.0" layoutY="96.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -153,25 +120,13 @@
             <content>
               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                 <children>
-                  <HBox alignment="CENTER" layoutX="303.0" layoutY="14.0" prefHeight="17.0" prefWidth="354.0" spacing="25.0">
-                    <children>
-                      <Label text="Search:" />
-                      <CheckBox fx:id="sortNumAll" mnemonicParsing="false" text="All" />
-                      <CheckBox fx:id="sortNumMain" mnemonicParsing="false" text="Main Warehouse" />
-                      <CheckBox fx:id="sortNumVans" mnemonicParsing="false" text="Specific Van" />
-                    </children>
-                  </HBox>
+                  <HBox alignment="CENTER" layoutX="303.0" layoutY="14.0" prefHeight="17.0" prefWidth="354.0" spacing="25.0" />
                   <Label layoutX="303.0" layoutY="42.0" text="Van Name:" />
-                  <Button fx:id="sortNumOkay" layoutX="613.0" layoutY="38.0" mnemonicParsing="false" text="Okay" />
+                  <Button fx:id="sortNumOkay" layoutX="613.0" layoutY="38.0" mnemonicParsing="false" text="Sort" />
                   <ChoiceBox fx:id="sortNumVanName" layoutX="380.0" layoutY="38.0" prefWidth="200.0" />
-                  <ScrollPane layoutY="77.0" prefHeight="433.0" prefWidth="960.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="433.0" prefWidth="967.0">
-                        <children>
-                          <Label fx:id="sortNumLabel" alignment="TOP_LEFT" layoutX="1.0" layoutY="14.0" prefHeight="404.0" prefWidth="943.0" />
-                        </children></AnchorPane>
-                    </content>
-                  </ScrollPane>
+                <Label layoutX="185.0" layoutY="28.0" text="Choice:" />
+                        <ChoiceBox layoutX="234.0" layoutY="18.0" prefWidth="150.0" />
+                        <TextArea disable="true" layoutX="413.0" layoutY="165.0" prefHeight="200.0" prefWidth="200.0" />
                 </children>
               </AnchorPane>
             </content>
@@ -181,8 +136,9 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <Label layoutX="282.0" layoutY="26.0" text="Move File Name:" />
-                        <Button fx:id="moveOkay" layoutX="594.0" layoutY="22.0" mnemonicParsing="false" text="Okay" />
+                        <Button fx:id="moveOkay" layoutX="594.0" layoutY="22.0" mnemonicParsing="false" text="Move" />
                         <ChoiceBox fx:id="moveFile" layoutX="380.0" layoutY="22.0" prefWidth="200.0" />
+                        <TextArea disable="true" layoutX="430.0" layoutY="205.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -191,9 +147,9 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="338.0" layoutY="27.0" text="Van Name:" />
-                        <Button fx:id="addOkay" layoutX="568.0" layoutY="23.0" mnemonicParsing="false" text="Okay" />
-                        <TextField fx:id="addVanName" layoutX="406.0" layoutY="23.0" />
+                        <Button fx:id="addOkay" layoutX="568.0" layoutY="23.0" mnemonicParsing="false" text="Add" />
+                        <TextField fx:id="addVanName" layoutX="406.0" layoutY="23.0" promptText="Van Name" />
+                        <TextArea disable="true" layoutX="380.0" layoutY="154.0" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
                </content>

@@ -1,9 +1,9 @@
 -Fix getIndex
 -FXML:
   -Replace Anchor Panes with VBoxes & Hboxes
-  -Replace Labels with Prompts
-  -Replace Check Boxes with Radio buttons (onsale?)
-  -Have textAreas under buttons to show success/error messages/display data/sorted data
+  -Replace Labels on ChoiceBoxes
+  -Have textAreas under buttons to show success/error messages/display data/sorted data (ta.setDisable(true))
+  -Make sure everything has fxids and actionEvents
 -Controller:
   -Everything
 -Main:
