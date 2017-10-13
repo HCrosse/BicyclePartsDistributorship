@@ -12,22 +12,21 @@
 <!--prefHeight="400.0" prefWidth="600.0">-->
 <!--</AnchorPane>-->
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logistics.DistributorshipController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logistics.DistributorshipController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -39,119 +38,170 @@
         <tabs>
           <Tab text="Read Inventory File">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ChoiceBox fx:id="invFile" layoutX="183.0" layoutY="18.0" prefHeight="25.0" prefWidth="200.0" />
-                        <Button fx:id="invOkay" layoutX="717.0" layoutY="18.0" mnemonicParsing="false" text="Read" />
-                        <Label layoutX="66.0" layoutY="22.0" text="Inventory File Name:" />
-                        <ChoiceBox fx:id="invLocation" layoutX="480.0" layoutY="18.0" prefWidth="200.0" />
-                        <Label layoutX="424.0" layoutY="22.0" text="Location:" />
-                        <TextArea disable="true" layoutX="173.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <ComboBox fx:id="invLocation" prefWidth="200.0" />
+                              <ComboBox fx:id="invFile" prefWidth="200.0" />
+                              <Button fx:id="invOkay" mnemonicParsing="false" text="Read" />
+                           </children>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </HBox>
+                        <TextArea fx:id="invTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </content>
           </Tab>
           <Tab text="Enter a Part">
                <content>
-                  <AnchorPane prefHeight="742.0" prefWidth="1105.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ChoiceBox fx:id="enterLocation" layoutX="163.0" layoutY="24.0" prefWidth="150.0" />
-                        <Label layoutX="95.0" layoutY="29.0" text="Location:" />
-                        <Button fx:id="enterOkay" layoutX="629.0" layoutY="255.0" mnemonicParsing="false" text="Enter" />
-                        <VBox layoutX="558.0" layoutY="28.0" prefHeight="209.0" prefWidth="185.0" spacing="12.0">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                            <children>
-                              <TextField fx:id="enterName" promptText="Part Name" />
-                              <TextField fx:id="enterNum" promptText="Part Number" />
-                              <TextField fx:id="enterLP" promptText="List Price" />
-                              <TextField fx:id="enterSP" promptText="Sale Price" />
-                              <TextField fx:id="enterQuantity" prefWidth="255.0" promptText="Quantity" />
+                              <ComboBox fx:id="enterLocation" prefWidth="200.0" />
+                              <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="enterName" promptText="Part Name" />
+                                    <TextField fx:id="enterNum" promptText="Part Number" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="enterLP" promptText="List Price" />
+                                    <TextField fx:id="enterSP" promptText="Sale Price" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0" spacing="13.0">
+                                 <children>
+                                    <TextField fx:id="enterQuantity" promptText="Quantity" />
+                                    <RadioButton fx:id="enterOnSale" mnemonicParsing="false" text="Part on Sale" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="4.0" />
+                                 </padding>
+                              </VBox>
+                              <Button fx:id="enterOkay" mnemonicParsing="false" text="Enter" />
                            </children>
-                        </VBox>
-                        <RadioButton fx:id="enterOnSale" layoutX="396.0" layoutY="193.0" mnemonicParsing="false" text="Part on Sale" />
-                        <TextArea disable="true" layoutX="85.0" layoutY="137.0" prefHeight="200.0" prefWidth="200.0" />
+                           <padding>
+                              <Insets left="50.0" right="100.0" />
+                           </padding>
+                        </HBox>
+                        <TextArea fx:id="enterTA" disable="true" prefHeight="400.0" prefWidth="200.0" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </content>
           </Tab>
           <Tab text="Sell a Part">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <AnchorPane prefHeight="511.0" prefWidth="960.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                            <children>
-                              <ChoiceBox fx:id="sellLocation" layoutX="248.0" layoutY="21.0" prefWidth="200.0" />
-                              <Button fx:id="sellOkay" layoutX="616.0" layoutY="53.0" mnemonicParsing="false" text="Sell" />
-                              <TextField fx:id="sellNumber" layoutX="564.0" layoutY="21.0" promptText="Part Number" />
-                              <Label layoutX="190.0" layoutY="25.0" text="Location:" />
-                              <TextArea disable="true" layoutX="317.0" layoutY="156.0" prefHeight="200.0" prefWidth="200.0" />
+                              <ComboBox fx:id="sellLocation" prefWidth="200.0" />
+                              <TextField fx:id="sellNumber" promptText="Part Number" />
+                              <Button fx:id="sellOkay" mnemonicParsing="false" text="Sell" />
                            </children>
-                        </AnchorPane>
+                           <VBox.margin>
+                              <Insets left="50.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TextArea fx:id="sellTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </content></Tab>
           <Tab text="Display a Part">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <TextField fx:id="displayName" layoutX="406.0" layoutY="22.0" promptText="Part Name" />
-                        <Button fx:id="displayOkay" layoutX="568.0" layoutY="22.0" mnemonicParsing="false" text="Display" />
-                        <Label fx:id="displayLabel" alignment="CENTER" layoutX="296.0" layoutY="75.0" prefHeight="40.0" prefWidth="367.0" />
-                        <TextArea disable="true" layoutX="426.0" layoutY="154.0" prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <TextField fx:id="displayName" promptText="Part Name" />
+                              <Button fx:id="displayOkay" mnemonicParsing="false" text="Display" />
+                           </children>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </HBox>
+                        <TextArea fx:id="displayTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </content>
           </Tab>
           <Tab text="Sort Parts by Name">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <HBox alignment="CENTER" layoutX="303.0" layoutY="14.0" prefHeight="17.0" prefWidth="354.0" spacing="25.0" />
-                        <Label layoutX="303.0" layoutY="42.0" text="Van Name:" />
-                        <Button fx:id="sortNameOkay" layoutX="613.0" layoutY="38.0" mnemonicParsing="false" text="Sort" />
-                        <ChoiceBox fx:id="sortNameVanName" layoutX="380.0" layoutY="38.0" prefWidth="200.0" />
-                        <ChoiceBox layoutX="86.0" layoutY="29.0" prefWidth="150.0" />
-                        <Label layoutX="28.0" layoutY="42.0" text="Choice:" />
-                        <TextArea disable="true" layoutX="380.0" layoutY="96.0" prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <RadioButton fx:id="sortNameAll" mnemonicParsing="false" text="Sort All" />
+                              <ComboBox fx:id="sortNameLocation" prefWidth="200.0" />
+                              <Button fx:id="sortNameOkay" mnemonicParsing="false" text="Sort" />
+                           </children>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </HBox>
+                        <TextArea fx:id="sortNameTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </content>
           </Tab>
           <Tab text="Sort Parts by Number">
             <content>
-              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <VBox prefHeight="200.0" prefWidth="100.0">
                 <children>
-                  <HBox alignment="CENTER" layoutX="303.0" layoutY="14.0" prefHeight="17.0" prefWidth="354.0" spacing="25.0" />
-                  <Label layoutX="303.0" layoutY="42.0" text="Van Name:" />
-                  <Button fx:id="sortNumOkay" layoutX="613.0" layoutY="38.0" mnemonicParsing="false" text="Sort" />
-                  <ChoiceBox fx:id="sortNumVanName" layoutX="380.0" layoutY="38.0" prefWidth="200.0" />
-                <Label layoutX="185.0" layoutY="28.0" text="Choice:" />
-                        <ChoiceBox layoutX="234.0" layoutY="18.0" prefWidth="150.0" />
-                        <TextArea disable="true" layoutX="413.0" layoutY="165.0" prefHeight="200.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+                    <children>
+                              <RadioButton fx:id="sortNumAll" mnemonicParsing="false" text="Sort All" />
+                      <ComboBox fx:id="sortNumLocation" prefWidth="200.0" />
+                      <Button fx:id="sortNumOkay" mnemonicParsing="false" text="Sort" />
+                    </children>
+                    <padding>
+                      <Insets left="50.0" />
+                    </padding>
+                  </HBox>
+                  <TextArea fx:id="sortNumTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
                 </children>
-              </AnchorPane>
+              </VBox>
             </content>
           </Tab>
           <Tab text="Move Parts">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label layoutX="282.0" layoutY="26.0" text="Move File Name:" />
-                        <Button fx:id="moveOkay" layoutX="594.0" layoutY="22.0" mnemonicParsing="false" text="Move" />
-                        <ChoiceBox fx:id="moveFile" layoutX="380.0" layoutY="22.0" prefWidth="200.0" />
-                        <TextArea disable="true" layoutX="430.0" layoutY="205.0" prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <ComboBox fx:id="moveFile" prefWidth="200.0" />
+                              <Button fx:id="moveOkay" mnemonicParsing="false" text="Move" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="50.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TextArea fx:id="moveTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </content>
           </Tab>
           <Tab text="Add a Van">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Button fx:id="addOkay" layoutX="568.0" layoutY="23.0" mnemonicParsing="false" text="Add" />
-                        <TextField fx:id="addVanName" layoutX="406.0" layoutY="23.0" promptText="Van Name" />
-                        <TextArea disable="true" layoutX="380.0" layoutY="154.0" prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <TextField fx:id="addVanName" promptText="Van Name" />
+                              <Button fx:id="addOkay" mnemonicParsing="false" text="Add" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="50.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TextArea fx:id="addTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </content>
           </Tab>
         </tabs>

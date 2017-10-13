@@ -1,17 +1,14 @@
--Fix getIndex
 -FXML:
-  -Replace Anchor Panes with VBoxes & Hboxes
-  -Replace ChoicesBoxes with ComboBoxes (method updateComboBoxes)
   -Have textAreas under buttons to show success/error messages/display data/sorted data (ta.setDisable(true))
-  -Make sure everything has fxids and actionEvents
+  -Make sure in SORT that clicking all disables ComboBox
+  -Make sure everything has actionEvents
 -Controller:
   -Everything
   -JavaDoc
   -Testing
   -method updateComboBoxes
 -Main:
-  -Everything
   -JavaDoc
-  -Testing
 -General:
   -Unit Testing
+  -Add an Interface

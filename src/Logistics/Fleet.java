@@ -2,6 +2,7 @@ package Logistics;
 
 import java.io.*;
 import java.util.*;
+import javafx.collections.*;
 
 /**
  * The Fleet class models a Main Warehouse and a fleet of Sales Vans.
@@ -44,6 +45,7 @@ public class Fleet {
         vans.add(new Warehouse(file));
       }
     }
+    Collections.sort(vans);
   }
 
   /**
@@ -61,11 +63,11 @@ public class Fleet {
   /**
    * Reads an inventory file into the specified Warehouse.
    *
-   * @param file File to be read in.
    * @param choice String name of the Warehouse.
+   * @param file File to be read in.
    * @throws FileNotFoundException if the file does not exist.
    */
-  void readInventory(File file, String choice) throws FileNotFoundException {
+  void readInventory(String choice, File file) throws FileNotFoundException {
     if (choice.equals("Main")) {
       modifyInv(file, mwh);
     } else {
@@ -116,10 +118,10 @@ public class Fleet {
    *
    * @param choice String of the Warehouse name.
    * @param partNumber int of the partNumber.
-   * @return String[] of sale information.
+   * @return String of sale information.
    */
-  String[] sell(String choice, int partNumber) {
-    String[] info;
+  String sell(String choice, int partNumber) {
+    String info;
     int index;
     if (choice.equals("Main")) {
       index = mwh.getIndex(partNumber);
@@ -142,7 +144,7 @@ public class Fleet {
   }
 
   /**
-   * Displays information about the Part specified by partName.
+   * Displays information about the Part specified by partNumber.
    *
    * @param partName String name of the Part.
    * @return String of Part information.
@@ -237,6 +239,8 @@ public class Fleet {
       }
     }
     vans.add(new Warehouse(vanName));
+    Collections.sort(vans);
+
     return true;
   }
 
@@ -264,7 +268,7 @@ public class Fleet {
           }
         }
         if (!exists) {
-          return -1;
+          return -1; //Warehouse not found
         }
       }
     }
@@ -272,17 +276,31 @@ public class Fleet {
       String[] strings = in.nextLine().split(",");
       int index = locations[0].getIndex(strings[0]);
       if (index < 0) {
-        return -2;
+        return -2; //Part not found
       }
-      int contains = locations[0].sell(index, Integer.parseInt(strings[1]));
+      int contains = locations[0].move(index, Integer.parseInt(strings[1]));
       if (contains == 0) {
         locations[0].removePart(index);
       } else if (contains == -1) {
-        return -3;
+        return -3; //Part quantity too great
       }
       locations[1].addPart(strings);
     }
     return 1;
+  }
+
+  /**
+   * Returns an ObservableList of all Warehouse names.
+   *
+   * @return ObservableList of Strings.
+   */
+  ObservableList<String> listWarehouses() {
+    ObservableList<String> owl = FXCollections.observableArrayList();
+    owl.add(mwh.getName());
+    for (Warehouse v : vans) {
+      owl.add(v.getName());
+    }
+    return owl;
   }
 
 }

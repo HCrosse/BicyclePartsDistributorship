@@ -68,7 +68,7 @@ public class InventoryPart implements Comparable<InventoryPart> {
    * @return int status, -1 = failure, 0 = success with new remaining quantity of 0, 1 = success
    * with >0 remaining quantity.
    */
-  int sell(int quantity) {
+  int remove(int quantity) {
     if (this.quantity > quantity) {
       this.quantity -= quantity;
       return 1;

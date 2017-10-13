@@ -1,5 +1,6 @@
 package Logistics;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javafx.application.Application;
@@ -31,6 +32,7 @@ public class Main extends Application {
     } catch (IndexOutOfBoundsException e) {
       e.printStackTrace();
     }
+    DistributorshipController.setOWL(fleet.listWarehouses());
     launch(args);
   }
 
@@ -48,86 +50,75 @@ public class Main extends Application {
       System.exit(-1);
     }
   }
-  /* ALL FOLLOWING ARE TRIGGERED BY BUTTON PRESS ON RESPECTIVE TABS
-     AND TAKE INFO FROM DROP-DOWNS/CHECKS/TEXT-FIELDS
 
-  private static void readInventory() {
-    //get inventory file from dropdown - as string
-    //get location from dropdown - save as string
+  private static String readInventory(String location, String invFile) {
     try {
-      fleet.readInventory(new File(file), location);
+      fleet.readInventory(location, new File(invFile));
     } catch (FileNotFoundException e) {
-      //display error somehow
       e.printStackTrace();
+      return "Error: Inventory file not found.";
     }
+    return ("Files successfully added to " + location);
   }
 
-  private static void enterPart() {
-    String[] strings;
-    //get strings from text fields
+  private static String enterPart(String[] strings) {
     fleet.enterPart(strings);
+    return (strings[0] + " successfully added to " + strings[6]);
   }
 
-  private static void sell() {
-    //String choice from dropdown
-    //int partNumber from text field
-    String[] info = fleet.sell(choice, partNumber);
+  private static String sell(String location, int partNumber) {
+    String info = fleet.sell(location, partNumber);
     if (info == null) {
-      //display error
-      return;
+      return ("Error: Unable to sell part #" + partNumber + " at " + location);
     }
-    //display info in info
+    return info;
   }
 
-  private static void display(){
-    //get partName from text field
+  private static String display(String partName){
     String str = fleet.display(partName);
     if (str == null) {
-      //display error
+      return ("Error: " + partName + " not found.");
     }
-    //display info in str
+    return str;
   }
 
-  private static void sortName() {
-    //get choice from dropdown
-    String str = fleet.sortName(choice)
-    //display str
+  private static String sortName(String location) {
+    return fleet.sortName(location);
   }
 
-  private static void sortNumber() {
-    //get choice from dropdown
-    String str = fleet.sortNumber(choice)
-    //display str
+  private static String sortNumber(String location) {
+    return fleet.sortNumber(location);
   }
 
-  private static void addVan() {
-    //get name from somewhere, idk how controller works
-    boolean vanNew = fleet.addVan(vanName)
-    if (!vanNew) {
-      //display error
+  private static String moveParts(String moveFile) {
+    File mov = new File("resources/move/" + moveFile + ".txt");
+    int status = 0;
+    try {
+      status = fleet.moveParts(mov);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      return ("Error: File " + moveFile + " not found.");
     }
-  }
-
-  private static void moveParts() {
-    //get file name/path/file from somewhere
-    //resources/move/FILENAME.txt
-    int status = fleet.moveParts(moveFile);
     if (status < 0) {
       switch (status) {
-        choice -1:
-          //display error
-          break;
-        choice -2:
-          //display error
-          break;
-        choice -3:
-          //display error
-          break;
-        default:
-          //display error
-          break;
+        case -1:
+          return ("Error: Warehouse not found.");
+        case  -2:
+          return ("Error: Part not found.");
+        case  -3:
+          return ("Error: Trying to move too many parts.");
       }
     }
+    return ("Parts successfully moved.");
   }
-  */
+
+  private static String addVan(String vanName) {
+    boolean vanNew = fleet.addVan(vanName);
+    if (!vanNew) {
+      return ("Error: Van already exists.");
+    }
+    DistributorshipController.setOWL(fleet.listWarehouses());
+    return (vanName + " successfully added.");
+  }
+
 }

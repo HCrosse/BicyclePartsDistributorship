@@ -10,7 +10,7 @@ import java.util.*;
  * @version 2.0
  */
 
-public class Warehouse {
+public class Warehouse implements Comparable<Warehouse> {
 
   private String name;
   private File databaseFile;
@@ -79,9 +79,9 @@ public class Warehouse {
   /**
    * Decrements the quantity of the part at index by 1 if the quantity is greater than 0.
    *
-   * @return String[] containing partName, partPrice, and current Date.
+   * @return String containing partName, partPrice, and current Date.
    */
-  String[] decrement(int index) {
+  String decrement(int index) {
     InventoryPart soldPart = getPart(index);
     int status = soldPart.decrement();
     if (status < 1) {
@@ -90,9 +90,8 @@ public class Warehouse {
     if (status < 0) {
       return null;
     }
-    String[] str = {soldPart.getPartName(), Double.toString(soldPart.getPrice()),
-        new Date().toString()};
-    return str;
+    return  (soldPart.getPartName() + " sold from " + name + " for $" +
+        Double.toString(soldPart.getPrice()) + " on " + new Date().toString());
   }
 
   /**
@@ -103,8 +102,8 @@ public class Warehouse {
    * @return int status, -1 = failure, 0 = success with new remaining quantity of 0, 1 = success
    * with >0 remaining quantity.
    */
-  int sell(int index, int quantity) {
-    return getPart(index).sell(quantity);
+  int move(int index, int quantity) {
+    return getPart(index).remove(quantity);
   }
 
   /**
@@ -270,6 +269,17 @@ public class Warehouse {
       Warehouse other = (Warehouse) o;
       return (this.name.equals(other.getName()));
     }
+  }
+
+  /**
+   * Compares this.name with o.name.
+   *
+   * @param o Warehouse to be compared to
+   * @return int -1 if o.partName is greater, 0 if o.partName is equal, 1 if o.partName is lesser.
+   */
+  @Override
+  public int compareTo(Warehouse o) {
+    return this.name.compareTo(o.getName());
   }
 
 }
