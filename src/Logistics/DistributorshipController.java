@@ -13,12 +13,23 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+/**
+ * The DistributorshipController class serves as the JavaFX controller for
+ * DistributorshipOverview.fxml.
+ *
+ * @author Harrison Crosse
+ * @version 1.0
+ */
+
 public class DistributorshipController {
 
   private static ObservableList<String> whNames;
-  private static ObservableList<String> invFiles;
-  private static ObservableList<String> moveFiles;
+  private ObservableList<String> invFiles;
+  private ObservableList<String> moveFiles;
 
+  /**
+   * Initializes multiple fields on start.
+   */
   @FXML
   public void initialize() {
     setInvFiles();
@@ -39,10 +50,18 @@ public class DistributorshipController {
     moveFile.getSelectionModel().selectFirst();
   }
 
+  /**
+   * Sets an ObservableList of Warehouse names.
+   *
+   * @param owl ArrayList of Warehouse names.
+   */
   static void setOWL(ArrayList<String> owl) {
     whNames = FXCollections.observableArrayList(owl);
   }
 
+  /**
+   * Updates the elements that rely on OWL.
+   */
   private void updateOWL() {
     invLocation.setItems(whNames);
     enterLocation.setItems(whNames);
@@ -51,6 +70,9 @@ public class DistributorshipController {
     sortNumLocation.setItems(whNames);
   }
 
+  /**
+   * Sets an ObservableList of inventory filenames.
+   */
   private void setInvFiles() {
     invFiles = FXCollections.observableArrayList();
     File[] files = new File("resources/inventory").listFiles();
@@ -66,6 +88,9 @@ public class DistributorshipController {
     }
   }
 
+  /**
+   * Sets an ObservableList of move filenames.
+   */
   private void setMoveFiles() {
     moveFiles = FXCollections.observableArrayList();
     File[] files = new File("resources/move").listFiles();
@@ -81,11 +106,17 @@ public class DistributorshipController {
     }
   }
 
+  /**
+   * Calls Main.readInventory with data from UI elements and prints a success or error message.
+   */
   @FXML
   private void readInventory() {
     invTA.setText(Main.readInventory(invLocation.getValue(), invFile.getValue()));
   }
 
+  /**
+   * Calls Main.readInventory with data from UI elements and prints a success or error message.
+   */
   @FXML
   private void enterPart() {
     String[] strings = new String[7];
@@ -99,47 +130,78 @@ public class DistributorshipController {
     enterTA.setText(Main.enterPart(strings));
   }
 
+  /**
+   * Calls Main.sell with data from UI elements and prints a success or error message.
+   */
   @FXML
   private void sell() {
     sellTA.setText(Main.sell(sellLocation.getValue(), sellNumber.getText()));
   }
 
+  /**
+   * Calls Main.display with data from UI elements and prints part information or an error message.
+   */
   @FXML
   private void display() {
     displayTA.setText(Main.display(displayName.getText()));
   }
 
+  /**
+   * Calls Main.sortName() with data from UI elements and prints the list of sorted parts.
+   */
   @FXML
   private void sortName() {
     sortNameTA.setText(Main.sortName(sortNameLocation.getValue()));
   }
 
+  /**
+   * Calls Main.sortNumber() with data from UI elements and prints the list of sorted parts.
+   */
   @FXML
   private void sortNumber() {
     sortNumTA.setText(Main.sortNumber(sortNumLocation.getValue()));
   }
 
+  /**
+   * Calls Main.moveParts with data from UI elements and prints a success or error message.
+   */
   @FXML
   private void moveParts() {
     moveTA.setText(Main.moveParts(moveFile.getValue()));
   }
 
+  /**
+   * Calls Main.addVan with data from UI elements and prints a success or error message.
+   */
   @FXML
   private void addVan() {
     addTA.setText(Main.addVan(addVanName.getText()));
     updateOWL();
   }
 
+  /**
+   * Unknown, existed upon IntelliJ creation.
+   *
+   * @param event unknown.
+   */
   @FXML
   public void exitApplication(ActionEvent event) {
     Platform.exit();
   }
 
+  //Permanently disables ComboBox
+  /**
+   * Disables and re-enables ComboBox on sort name tab; currently not working.
+   */
   @FXML
   private void sortNameRadioChecked() {
     sortNameLocation.setDisable(true);
   }
 
+  //Permanently disables ComboBox
+  /**
+   * Disables and re-enables ComboBox on sort number tab; currently not working.
+   */
   @FXML
   private void sortNumRadioChecked() {
     sortNumLocation.setDisable(true);

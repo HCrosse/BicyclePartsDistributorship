@@ -9,10 +9,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The Main class launches the JavaFX application and acts as an intermediary between the Controller
+ * and the model.
+ *
+ * @author Harrison Crosse
+ * @version 2.0
+ */
+
 public class Main extends Application {
 
   private static Fleet fleet;
 
+  /**
+   * Launches the JavaFX application
+   *
+   * @param primaryStage Stage to be displayed by the application.
+   * @throws Exception unknown.
+   */
   @Override
   public void start(Stage primaryStage) throws Exception{
     Parent root = FXMLLoader.load(getClass().getResource("DistributorshipOverview.fxml"));
@@ -21,7 +35,11 @@ public class Main extends Application {
     primaryStage.show();
   }
 
-
+  /**
+   * Initializes the fleet and calls on start().
+   *
+   * @param args CLI commands, unsupported.
+   */
   public static void main(String[] args) {
     try {
       fleet = new Fleet();
@@ -38,11 +56,17 @@ public class Main extends Application {
     launch(args);
   }
 
+  /**
+   * Saves the fleet on close.
+   */
   @Override
   public void stop(){
     save();
   }
 
+  /**
+   * Saves the fleet into text files.
+   */
   private static void save() {
     try {
       fleet.save();
@@ -53,7 +77,15 @@ public class Main extends Application {
     }
   }
 
+
   //Doesn't handle duplicates
+  /**
+   * Reads parts into a Warehouse specified by location from an inventory file.
+   *
+   * @param location String name of the Warehouse parts are being read into.
+   * @param invFile String name of the inventory file.
+   * @return String success or failure message.
+   */
   static String readInventory(String location, String invFile) {
     try {
       fleet.readInventory(location, new File("resources/inventory/" + invFile + ".txt"));
@@ -63,12 +95,25 @@ public class Main extends Application {
     }
     return ("Files successfully added to " + location);
   }
-  
+
+  /**
+   * Allows a part to be manually entered into a Warehouse.
+   *
+   * @param strings String[] of Part information.
+   * @return String success message.
+   */
   static String enterPart(String[] strings) {
     fleet.enterPart(strings);
     return (strings[0] + " successfully added to " + strings[6]);
   }
 
+  /**
+   * Allows a part to be sold from a location.
+   *
+   * @param location String name of Warehouse part is being sold from.
+   * @param partNumber int partNumber of the part being sold.
+   * @return String success or error message.
+   */
  static String sell(String location, String partNumber) {
     String info = fleet.sell(location, Integer.parseInt(partNumber));
     if (info == null) {
@@ -77,6 +122,12 @@ public class Main extends Application {
     return info;
   }
 
+  /**
+   * Displays information about a specific part.
+   *
+   * @param partName String name of the part to be displayed.
+   * @return String success or error message.
+   */
   static String display(String partName){
     String str = fleet.display(partName);
     if (str == null) {
@@ -87,16 +138,34 @@ public class Main extends Application {
 
   //Radio All perm disables other locations
   //When all is selected only prints stuff from Main
+  /**
+   * Sorts Parts in a Warehouse by name and returns a list of them.
+   *
+   * @param location String name of Warehouse to be sorted.
+   * @return String list of sorted parts.
+   */
   static String sortName(String location) {
     return fleet.sortName(location);
   }
 
   //Radio All perm disables other locations
   //When all is selected only prints stuff from Main
+  /**
+   * Sorts Parts in a Warehouse by number and returns a list of them.
+   *
+   * @param location String name of Warehouse to be sorted.
+   * @return String list of sorted parts.
+   */
   static String sortNumber(String location) {
     return fleet.sortNumber(location);
   }
 
+  /**
+   * Moves parts between Warehouses as specified by a move file.
+   *
+   * @param moveFile String name of the move file.
+   * @return String success or failure message.
+   */
   static String moveParts(String moveFile) {
     File mov = new File("resources/move/" + moveFile + ".txt");
     int status = 0;
@@ -119,6 +188,12 @@ public class Main extends Application {
     return ("Parts successfully moved.");
   }
 
+  /**
+   * Adds a van to the fleet.
+   *
+   * @param vanName String name of the van being added.
+   * @return String success or failure message.
+   */
   static String addVan(String vanName) {
     boolean vanNew = fleet.addVan(vanName);
     if (!vanNew) {
