@@ -26,7 +26,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logistics.DistributorshipController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Logistics.DistributorshipController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -44,13 +44,13 @@
                            <children>
                               <ComboBox fx:id="invLocation" prefWidth="200.0" />
                               <ComboBox fx:id="invFile" prefWidth="200.0" />
-                              <Button fx:id="invOkay" mnemonicParsing="false" text="Read" />
+                              <Button fx:id="invOkay" mnemonicParsing="false" onAction="#readInventory" text="Read" />
                            </children>
                            <padding>
                               <Insets left="50.0" />
                            </padding>
                         </HBox>
-                        <TextArea fx:id="invTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
+                        <TextArea fx:id="invTA" editable="false" prefHeight="450.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>
@@ -83,13 +83,13 @@
                                     <Insets bottom="4.0" />
                                  </padding>
                               </VBox>
-                              <Button fx:id="enterOkay" mnemonicParsing="false" text="Enter" />
+                              <Button fx:id="enterOkay" mnemonicParsing="false" onAction="#enterPart" text="Enter" />
                            </children>
                            <padding>
                               <Insets left="50.0" right="100.0" />
                            </padding>
                         </HBox>
-                        <TextArea fx:id="enterTA" disable="true" prefHeight="400.0" prefWidth="200.0" />
+                        <TextArea fx:id="enterTA" editable="false" prefHeight="400.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>
@@ -102,13 +102,13 @@
                            <children>
                               <ComboBox fx:id="sellLocation" prefWidth="200.0" />
                               <TextField fx:id="sellNumber" promptText="Part Number" />
-                              <Button fx:id="sellOkay" mnemonicParsing="false" text="Sell" />
+                              <Button fx:id="sellOkay" mnemonicParsing="false" onAction="#sell" text="Sell" />
                            </children>
                            <VBox.margin>
                               <Insets left="50.0" />
                            </VBox.margin>
                         </HBox>
-                        <TextArea fx:id="sellTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
+                        <TextArea fx:id="sellTA" editable="false" prefHeight="450.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content></Tab>
@@ -119,13 +119,13 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                            <children>
                               <TextField fx:id="displayName" promptText="Part Name" />
-                              <Button fx:id="displayOkay" mnemonicParsing="false" text="Display" />
+                              <Button fx:id="displayOkay" mnemonicParsing="false" onAction="#display" text="Display" />
                            </children>
                            <padding>
                               <Insets left="50.0" />
                            </padding>
                         </HBox>
-                        <TextArea fx:id="displayTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
+                        <TextArea fx:id="displayTA" editable="false" prefHeight="450.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>
@@ -136,15 +136,15 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                            <children>
-                              <RadioButton fx:id="sortNameAll" mnemonicParsing="false" text="Sort All" />
+                              <RadioButton fx:id="sortNameAll" mnemonicParsing="false" onAction="#sortNameRadioChecked" text="Sort All" />
                               <ComboBox fx:id="sortNameLocation" prefWidth="200.0" />
-                              <Button fx:id="sortNameOkay" mnemonicParsing="false" text="Sort" />
+                              <Button fx:id="sortNameOkay" mnemonicParsing="false" onAction="#sortName" text="Sort" />
                            </children>
                            <padding>
                               <Insets left="50.0" />
                            </padding>
                         </HBox>
-                        <TextArea fx:id="sortNameTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
+                        <TextArea fx:id="sortNameTA" editable="false" prefHeight="450.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>
@@ -155,15 +155,15 @@
                 <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                     <children>
-                              <RadioButton fx:id="sortNumAll" mnemonicParsing="false" text="Sort All" />
+                              <RadioButton fx:id="sortNumAll" mnemonicParsing="false" onAction="#sortNumRadioChecked" text="Sort All" />
                       <ComboBox fx:id="sortNumLocation" prefWidth="200.0" />
-                      <Button fx:id="sortNumOkay" mnemonicParsing="false" text="Sort" />
+                      <Button fx:id="sortNumOkay" mnemonicParsing="false" onAction="#sortNumber" text="Sort" />
                     </children>
                     <padding>
                       <Insets left="50.0" />
                     </padding>
                   </HBox>
-                  <TextArea fx:id="sortNumTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
+                  <TextArea fx:id="sortNumTA" editable="false" prefHeight="450.0" prefWidth="200.0" />
                 </children>
               </VBox>
             </content>
@@ -175,13 +175,13 @@
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                            <children>
                               <ComboBox fx:id="moveFile" prefWidth="200.0" />
-                              <Button fx:id="moveOkay" mnemonicParsing="false" text="Move" />
+                              <Button fx:id="moveOkay" mnemonicParsing="false" onAction="#moveParts" text="Move" />
                            </children>
                            <VBox.margin>
                               <Insets left="50.0" />
                            </VBox.margin>
                         </HBox>
-                        <TextArea fx:id="moveTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
+                        <TextArea fx:id="moveTA" editable="false" prefHeight="450.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>
@@ -192,14 +192,14 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                            <children>
-                              <TextField fx:id="addVanName" promptText="Van Name" />
-                              <Button fx:id="addOkay" mnemonicParsing="false" text="Add" />
+                              <TextField fx:id="addVanName" onAction="#addVan" promptText="Van Name" />
+                              <Button fx:id="addOkay" mnemonicParsing="false" onAction="#addVan" text="Add" />
                            </children>
                            <VBox.margin>
                               <Insets left="50.0" />
                            </VBox.margin>
                         </HBox>
-                        <TextArea fx:id="addTA" disable="true" prefHeight="450.0" prefWidth="200.0" />
+                        <TextArea fx:id="addTA" editable="false" prefHeight="450.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </content>

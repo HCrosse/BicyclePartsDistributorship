@@ -2,7 +2,6 @@ package Logistics;
 
 import java.io.*;
 import java.util.*;
-import javafx.collections.*;
 
 /**
  * The Fleet class models a Main Warehouse and a fleet of Sales Vans.
@@ -22,7 +21,7 @@ public class Fleet {
    * @throws FileNotFoundException if a file used in Warehouse creation cannot be found.
    * @throws IndexOutOfBoundsException for unknown reason.
    */
-  public Fleet() throws FileNotFoundException, IndexOutOfBoundsException {
+  public Fleet() throws FileNotFoundException, IndexOutOfBoundsException, IOException {
     initFleet();
   }
 
@@ -32,12 +31,13 @@ public class Fleet {
    * @throws FileNotFoundException if a file used in Warehouse creation cannot be found.
    * @throws IndexOutOfBoundsException for unknown reason.
    */
-  private void initFleet() throws FileNotFoundException, IndexOutOfBoundsException {
+  private void initFleet() throws FileNotFoundException, IndexOutOfBoundsException, IOException {
     File mainFile = new File("resources/warehouse/Main.txt");
     if (mainFile.exists()) {
       mwh = new Warehouse(mainFile);
     } else {
       mwh = new Warehouse("Main");
+      save();
     }
     File[] vanFiles = new File("resources/vans/").listFiles();
     if (vanFiles != null) {
@@ -240,7 +240,6 @@ public class Fleet {
     }
     vans.add(new Warehouse(vanName));
     Collections.sort(vans);
-
     return true;
   }
 
@@ -290,12 +289,12 @@ public class Fleet {
   }
 
   /**
-   * Returns an ObservableList of all Warehouse names.
+   * Returns an ArrayList of all Warehouse names.
    *
-   * @return ObservableList of Strings.
+   * @return ArrayList of Strings.
    */
-  ObservableList<String> listWarehouses() {
-    ObservableList<String> owl = FXCollections.observableArrayList();
+  ArrayList<String> listWarehouses() {
+    ArrayList<String> owl = new ArrayList<>();
     owl.add(mwh.getName());
     for (Warehouse v : vans) {
       owl.add(v.getName());

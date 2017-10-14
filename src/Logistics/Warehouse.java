@@ -51,7 +51,7 @@ public class Warehouse implements Comparable<Warehouse> {
   public Warehouse(String whName) {
     this.name = whName;
     if (whName.equals("Main")) {
-      databaseFile = new File("resources/warehouse/main.txt");
+      databaseFile = new File("resources/warehouse/Main.txt");
     } else {
       String fileName = ("resources/vans/" + whName.replaceAll("[^a-zA-Z]+", "") +
           ".txt");

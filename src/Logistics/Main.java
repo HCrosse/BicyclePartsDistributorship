@@ -31,6 +31,8 @@ public class Main extends Application {
       System.exit(1);
     } catch (IndexOutOfBoundsException e) {
       e.printStackTrace();
+    } catch (IOException e) {
+      System.out.println("Error: Unable to save Main Warehouse.");
     }
     DistributorshipController.setOWL(fleet.listWarehouses());
     launch(args);
@@ -51,46 +53,51 @@ public class Main extends Application {
     }
   }
 
-  private static String readInventory(String location, String invFile) {
+  //Doesn't handle duplicates
+  static String readInventory(String location, String invFile) {
     try {
-      fleet.readInventory(location, new File(invFile));
+      fleet.readInventory(location, new File("resources/inventory/" + invFile + ".txt"));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
       return "Error: Inventory file not found.";
     }
     return ("Files successfully added to " + location);
   }
-
-  private static String enterPart(String[] strings) {
+  
+  static String enterPart(String[] strings) {
     fleet.enterPart(strings);
     return (strings[0] + " successfully added to " + strings[6]);
   }
 
-  private static String sell(String location, int partNumber) {
-    String info = fleet.sell(location, partNumber);
+ static String sell(String location, String partNumber) {
+    String info = fleet.sell(location, Integer.parseInt(partNumber));
     if (info == null) {
       return ("Error: Unable to sell part #" + partNumber + " at " + location);
     }
     return info;
   }
 
-  private static String display(String partName){
+  static String display(String partName){
     String str = fleet.display(partName);
     if (str == null) {
-      return ("Error: " + partName + " not found.");
+      return ("Error: Part " + partName + " not found.");
     }
     return str;
   }
 
-  private static String sortName(String location) {
+  //Radio All perm disables other locations
+  //When all is selected only prints stuff from Main
+  static String sortName(String location) {
     return fleet.sortName(location);
   }
 
-  private static String sortNumber(String location) {
+  //Radio All perm disables other locations
+  //When all is selected only prints stuff from Main
+  static String sortNumber(String location) {
     return fleet.sortNumber(location);
   }
 
-  private static String moveParts(String moveFile) {
+  static String moveParts(String moveFile) {
     File mov = new File("resources/move/" + moveFile + ".txt");
     int status = 0;
     try {
@@ -112,12 +119,17 @@ public class Main extends Application {
     return ("Parts successfully moved.");
   }
 
-  private static String addVan(String vanName) {
+  static String addVan(String vanName) {
     boolean vanNew = fleet.addVan(vanName);
     if (!vanNew) {
       return ("Error: Van already exists.");
     }
     DistributorshipController.setOWL(fleet.listWarehouses());
+    try {
+      fleet.save();
+    } catch (IOException e) {
+      return ("Error: Something went wrong when saving this van.");
+    }
     return (vanName + " successfully added.");
   }
 
