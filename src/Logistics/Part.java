@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @version 2.0
  */
 
-public class Part {
+public class Part implements PartInterface {
 
   private String partName;
   private int partNumber;
@@ -61,7 +61,7 @@ public class Part {
    *
    * @param strings String[] from inventory file.
    */
-  void updateValues(String[] strings) {
+  public void updateValues(String[] strings) {
     listPrice = Double.parseDouble(strings[2]);
     salePrice = Double.parseDouble(strings[3]);
     onSale = Boolean.parseBoolean(strings[4]);
@@ -72,7 +72,7 @@ public class Part {
    *
    * @return String partName.
    */
-  String getPartName() {
+  public String getPartName() {
     return partName;
   }
 
@@ -81,7 +81,7 @@ public class Part {
    *
    * @return int partNumber.
    */
-  int getPartNumber() {
+  public int getPartNumber() {
     return partNumber;
   }
 
@@ -90,7 +90,7 @@ public class Part {
    *
    * @return double listPrice.
    */
-  double getListPrice() {
+  public double getListPrice() {
     return listPrice;
   }
 
@@ -99,7 +99,7 @@ public class Part {
    *
    * @return double salePrice.
    */
-  double getSalePrice() {
+  public double getSalePrice() {
     return salePrice;
   }
 
@@ -108,7 +108,7 @@ public class Part {
    *
    * @return boolean onSale.
    */
-  boolean getSaleStatus() {
+  public boolean getSaleStatus() {
     return onSale;
   }
 
@@ -117,7 +117,7 @@ public class Part {
    *
    * @return double active price.
    */
-  double getActivePrice() {
+  public double getActivePrice() {
     return onSale ? salePrice : listPrice;
   }
 
@@ -126,7 +126,7 @@ public class Part {
    *
    * @return String partName + price.
    */
-  String display() {
+  public String display() {
     return (partName + " costs $" + getActivePrice());
   }
 
