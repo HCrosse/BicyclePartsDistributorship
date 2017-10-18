@@ -1,5 +1,11 @@
 package Logistics;
 
+/**
+ * Specifies the public method signatures for the Part class.
+ *
+ * @author Harrison Crosse
+ * @version 1.0
+ */
 
 public interface PartInterface {
 
