@@ -121,7 +121,13 @@ public class Warehouse implements Comparable<Warehouse> {
    * @param strings String[] for InventoryPart to be added.
    */
   void addPart (String[] strings) {
-    int index = getIndex(strings[0]);
+    int index = -1;
+    InventoryPart otherPart = new InventoryPart(strings);
+    for (int i = 0; i < partArrayList.size(); i++) {
+      if (partArrayList.get(i).equals(otherPart)) {
+        index = i;
+      }
+    }
     if (index >= 0) {
       getPart(index).updateValues(strings);
     } else {

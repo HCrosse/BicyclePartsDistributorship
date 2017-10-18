@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 
 /**
  * The DistributorshipController class serves as the JavaFX controller for
@@ -151,7 +152,11 @@ public class DistributorshipController {
    */
   @FXML
   private void sortName() {
-    sortNameTA.setText(Main.sortName(sortNameLocation.getValue()));
+    String location = sortNameLocation.getValue();
+    if (sortNameToggle.isSelected()) {
+      location = "All";
+    }
+    sortNameTA.setText(Main.sortName(location));
   }
 
   /**
@@ -159,7 +164,11 @@ public class DistributorshipController {
    */
   @FXML
   private void sortNumber() {
-    sortNumTA.setText(Main.sortNumber(sortNumLocation.getValue()));
+    String location = sortNumLocation.getValue();
+    if (sortNumToggle.isSelected()) {
+      location = "All";
+    }
+    sortNumTA.setText(Main.sortNumber(location));
   }
 
   /**
@@ -189,22 +198,28 @@ public class DistributorshipController {
     Platform.exit();
   }
 
-  //Permanently disables ComboBox
   /**
-   * Disables and re-enables ComboBox on sort name tab; currently not working.
+   * Disables and re-enables ComboBox on sort name tab.
    */
   @FXML
-  private void sortNameRadioChecked() {
-    sortNameLocation.setDisable(true);
+  private void sortNameToggled() {
+    if (sortNameToggle.isSelected()) {
+      sortNameLocation.setDisable(true);
+    } else {
+      sortNameLocation.setDisable(false);
+    }
   }
 
-  //Permanently disables ComboBox
   /**
-   * Disables and re-enables ComboBox on sort number tab; currently not working.
+   * Disables and re-enables ComboBox on sort number tab.
    */
   @FXML
-  private void sortNumRadioChecked() {
-    sortNumLocation.setDisable(true);
+  private void sortNumToggled() {
+    if (sortNumToggle.isSelected()) {
+      sortNumLocation.setDisable(true);
+    } else {
+      sortNumLocation.setDisable(false);
+    }
   }
 
   //Read Inventory
@@ -237,12 +252,12 @@ public class DistributorshipController {
   @FXML private TextArea displayTA = new TextArea();
 
   //Sort Name
-  @FXML private RadioButton sortNameAll = new RadioButton();
+  @FXML private ToggleButton sortNameToggle = new ToggleButton();
   @FXML private ComboBox<String> sortNameLocation = new ComboBox<String>();
   @FXML private TextArea sortNameTA = new TextArea();
 
   //Sort Number
-  @FXML private RadioButton sortNumAll = new RadioButton();
+  @FXML private ToggleButton sortNumToggle = new ToggleButton();
   @FXML private ComboBox<String> sortNumLocation = new ComboBox<String>();
   @FXML private TextArea sortNumTA = new TextArea();
 

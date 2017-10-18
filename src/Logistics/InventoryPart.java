@@ -39,7 +39,7 @@ public class InventoryPart implements Comparable<InventoryPart> {
    */
   void updateValues(String[] strings) {
     part.updateValues(strings);
-    quantity = Integer.parseInt(strings[5]);
+    quantity += Integer.parseInt(strings[5]);
   }
 
   /**
