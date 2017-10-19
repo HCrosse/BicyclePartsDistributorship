@@ -201,7 +201,7 @@ public class Warehouse implements Comparable<Warehouse> {
    * @param index int index of part.
    * @return InventoryPart.
    */
-  private InventoryPart getPart(int index) {
+  InventoryPart getPart(int index) {
     return partArrayList.get(index);
   }
 

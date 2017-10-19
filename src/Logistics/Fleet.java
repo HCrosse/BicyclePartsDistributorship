@@ -255,15 +255,15 @@ public class Fleet {
     String[] names = in.nextLine().split(",");
     Warehouse[] locations = new Warehouse[2];
     for (int i = 0; i < locations.length; i++) {
-      if (names[0].equals(mwh.getName())) {
+      if (names[i].equals(mwh.getName())) {
         locations[i] = mwh;
       } else {
         boolean exists = false;
         for (Warehouse v : vans) {
-          if (names[0].equals(v.getName())) {
+          if (names[i].equals(v.getName())) {
             exists = true;
             locations[i] = v;
-            break;
+//            break;
           }
         }
         if (!exists) {
@@ -283,7 +283,9 @@ public class Fleet {
       } else if (contains == -1) {
         return -3; //Part quantity too great
       }
-      locations[1].addPart(strings);
+      String[] partString = locations[0].getPart(index).toString().split(",");
+      partString[5] = strings[1];
+      locations[1].addPart(partString);
     }
     return 1;
   }
